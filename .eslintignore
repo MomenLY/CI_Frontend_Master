@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+.yarn/
+.env/
+
+# production
+build/
+public/
+
+# ide
+.vscode/
+
+# external docs
+src/app/main/documentation/material-ui-components/components/*
+src/app/main/documentation/material-ui-components/pages/*
+src/app/main/documentation/third-party-components/*/examples/*
+
+src/@fake-db/db/*
+**/*.{js,jsx}
+
+.eslintrc.js
+tailwind.config.
+
+aliases.js
+config-overrides.js
