@@ -1,0 +1,21 @@
+{
+    "role_heading": "Rol Yönetimi",
+    "role_Slno": "Sl. Yok hayır",
+    "role_roleName": "Rol ismi",
+    "role_roleType": "Rol Türü",
+    "role_users": "Kullanıcılar",
+    "role_actions": "Hareketler",
+    "role_addRole_title": "Rol Ekle",
+    "role_addRoleRoleInfo_title": "Rol Bilgisi",
+    "role_addRoleUsersList_title": "Kullanıcı Listesi",
+    "role_addRoleRoleInfo_text": "Ekibinizi kesin rol atamalarıyla güçlendirin. Yeni bir rol oluşturmak ve bu role doğru kullanıcıları atamak için bu formu kullanın, böylece optimum işbirliği ve verimlilik sağlayın.",
+    "role_addRoleUsersList_text": "Özel roller atayarak ekip potansiyelinin kilidini açın. Sorumlulukları eşitlemek ve kusursuz işbirliğini teşvik etmek için listeden kullanıcıları seçin.",
+    "role_roleName_error": "Rol Adı gerekli",
+    "role_search": "Ada veya E-postaya Göre Ara",
+    "role_submit": "Göndermek",
+    "role_editRoleRolePermissions_title": "Rol İzinleri",
+    "role_editRoleRolePermissions_text": "Erişim düzeylerini ayarlamak ve iş akışı verimliliğini artırmak için rol izinlerini kolayca düzenleyin.",
+    "role_editForm_confirm": "Güncelleme",
+    "role_deleteRole_confirmMessage": "Bu eylem kalıcıdır ve geri alınamaz! Bu rolün silinmesi, bu rolün tüm kullanıcılardan atamasını kaldırarak izinlerini ve erişimlerini etkileyecektir.",
+    "role_addRoleUsersNotFound_error": "Kullanıcı bulunamadı"
+}
