@@ -1,0 +1,132 @@
+{
+    "users": {
+        "label": "User",
+        "connectedFeature": "activeUser",
+        "moduleKey": "users",
+        "accessRules": {
+            "viewUsers": {
+                "label": "View Users",
+                "connectedFeature": "activeUser",
+                "defaultPermission": true
+            },
+            "editUser": {
+                "label": "Edit User",
+                "connectedFeature": "editUser"
+            },
+            "addUser": {
+                "label": "Add User",
+                "connectedFeature": "activeUser"
+            },
+            "deleteUser": {
+                "label": "Delete User"
+            },
+            "exportUsers": {
+                "label": "Export Users"
+            },
+            "importUsers": {
+                "label": "Import Users"
+            },
+            "inviteUsers": {
+                "label": "Invite Users"
+            },
+            "loginAsUser": {
+                "label": "Login as User"
+            },
+            "bulkUpload": {
+                "label": "Bulk Upload",
+                "connectedFeature": "bulkUpload"
+            },
+            "permissions": {
+                "label": "Permissions"
+            }
+        }
+    },
+    "settings": {
+        "label": "Settings",
+        "moduleKey": "settings",
+        "accessRules": {
+            "viewSettings": {
+                "label": "View Settings",
+                "defaultPermission": true
+            },
+            "editSettings": {
+                "label": "Edit Settings"
+            },
+            "addSettings": {
+                "label": "Add Settings",
+                "defaultPermission": false
+            },
+            "deleteSettings": {
+                "label": "Delete Settings"
+            },
+            "emailSupport": {
+                "label": "Email Support",
+                "connectedFeature": "emailSupport"
+            }
+        }
+    },
+    "role": {
+        "label": "Role",
+        "moduleKey": "role",
+        "accessRules": {
+            "viewRoles": {
+                "label": "View Roles",
+                "defaultPermission": true
+            },
+            "editRole": {
+                "label": "Edit Role"
+            },
+            "addRole": {
+                "label": "Add Role"
+            },
+            "deleteRole": {
+                "label": "Delete Role"
+            },
+            "exportRoles": {
+                "label": "Export Roles"
+            }
+        }
+    },
+    "profileField": {
+        "label": "Profile Field",
+        "connectedFeature": "paymentGateway",
+        "moduleKey": "profileField",
+        "accessRules": {
+            "viewProfileField": {
+                "label": "View Profile Field",
+                "defaultPermission": true
+            },
+            "editProfileField": {
+                "label": "Edit Profile Field"
+            },
+            "addProfileField": {
+                "label": "Add Profile Field"
+            },
+            "deleteProfileField": {
+                "label": "Delete Profile Field"
+            }
+        }
+    },
+    "label": {
+        "label": "Label",
+        "moduleKey": "label",
+        "accessRules": {
+            "viewLabels": {
+                "label": "View Labels",
+                "defaultPermission": true
+            },
+            "editLabel": {
+                "label": "Edit Label"
+            },
+            "addLabel": {
+                "label": "Add Label"
+            },
+            "deleteLabel": {
+                "label": "Delete Label"
+            },
+            "exportLabels": {
+                "label": "Export Labels"
+            }
+        }
+    }
+}
