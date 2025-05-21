@@ -8,7 +8,7 @@ import App from './app/App';
 // import * as serviceWorker from './serviceWorker';
 // import reportWebVitals from './reportWebVitals';
 
-/** 
+/**
  * The root element of the application.
  */
 const container = document.getElementById('root');
