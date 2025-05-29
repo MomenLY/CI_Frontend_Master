@@ -1,38 +1,81 @@
 <!DOCTYPE html>
 <html lang='en'>
-    <head>
-        <meta charset='utf-8'>
-        <meta name='description' content='Fuse React - Material design admin template with pre-built apps and pages'>
-        <meta name='keywords'
-              content='React,Redux,Material UI Next,Material,Material Design,Google Material Design,HTML,CSS,Firebase,Authentication,Material Redux Theme,Material Redux Template'>
-        <meta name='author' content='Withinpixels'>
-        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-        <meta name='theme-color' content='#000000'>
-        <base href='/'>
 
-        <link href='/assets/tailwind-base.css' rel='stylesheet'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='description'
+        content="Congressi Internazionali è l'app definitiva per organizzare e partecipare a conferenze e congressi aziendali. Gestisci registrazioni, agenda e networking in modo semplice e intuitivo.">
+    <meta name='keywords'
+        content="Congressi Internazionali è un'app completa progettata per rendere la gestione di conferenze e congressi aziendali efficiente e senza stress. Con strumenti avanzati per organizzatori e partecipanti, l'app facilita ogni fase dell'evento, dalla pianificazione alla partecipazione attiva.">
+    <meta name='author' content='Withinpixels'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    <meta name='theme-color' content='#000000'>
+    <base href='/'>
+    <script>
+        const pattern = /tenant-([^\/]+)\/events\/[^\/]+/;
+        const match = window.location.href.match(pattern);
 
-        <!--
+        if (match) {
+            const eventUrl = window.location.href;
+
+            // Create and add the meta tag for og:url
+            let metaUrlTag = document.createElement("meta");
+            metaUrlTag.setAttribute("property", "og:url");
+            metaUrlTag.setAttribute("content", eventUrl);
+            document.head.appendChild(metaUrlTag);
+
+            // Create and add the meta tag for og:image
+            let metaImageTag = document.createElement("meta");
+            metaImageTag.setAttribute("property", "og:image:secure_url");
+
+            if (window.location.hostname === "devci.enfinlabs.com") {
+                metaImageTag.setAttribute(
+                    "content",
+                    `https://d2rl30tbamkz20.cloudfront.net/uploads/ci/${match[1]}/logo/${match[1]}-1.png`
+                );
+            } else if (window.location.hostname === "app.congressiinternazionali.it") {
+                metaImageTag.setAttribute(
+                    "content",
+                    `https://d39dwbzr5rqysc.cloudfront.net/uploads/ci/${match[1]}/logo/${match[1]}-1.png`
+                );
+            }
+
+            document.head.appendChild(metaImageTag);
+        }
+
+
+    </script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href='/assets/tailwind-base.css' rel='stylesheet'>
+
+    <!--
           manifest.json provides metadata used when your web app is added to the
           homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
         -->
-        <link rel='manifest' href='/manifest.json'>
-        <link rel='shortcut icon' href='/assets/images/logo/logo.svg'>
+    <link rel='manifest' href='/manifest.json'>
+    <link rel='shortcut icon' href='/assets/images/logo/logo.svg'>
 
-        <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
-        <!--        You can choose main icon from variety of the material ui icon fonts-->
-        <link href='/assets/fonts/material-design-icons/MaterialIconsOutlined.css' rel='stylesheet'>
-        <!--        <link href="/assets/fonts/material-design-icons/MaterialIcons.css" rel="stylesheet">-->
-        <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsRound.css" rel="stylesheet">-->
-        <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsSharp.css" rel="stylesheet">-->
-        <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsTwoTone.css" rel="stylesheet">-->
+    <!--        You can choose main icon from variety of the material ui icon fonts-->
+    <link href='/assets/fonts/material-design-icons/MaterialIconsOutlined.css' rel='stylesheet'>
+    <!--        <link href="/assets/fonts/material-design-icons/MaterialIcons.css" rel="stylesheet">-->
+    <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsRound.css" rel="stylesheet">-->
+    <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsSharp.css" rel="stylesheet">-->
+    <!--        <link href="/assets/fonts/material-design-icons/MaterialIconsTwoTone.css" rel="stylesheet">-->
 
-        <link href='/assets/fonts/inter/inter.css' rel='stylesheet'>
-        <link href='/assets/fonts/meteocons/style.css' rel='stylesheet'>
+    <link href='/assets/fonts/inter/inter.css' rel='stylesheet'>
+    <link href='/assets/fonts/meteocons/style.css' rel='stylesheet'>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-        <noscript id='emotion-insertion-point'></noscript>
-        <!--
+    <noscript id='emotion-insertion-point'></noscript>
+
+    <!--
           Notice the use of  in the tags above.
           It will be replaced with the URL of the `public` folder during the build.
           Only files inside the `public` folder can be referenced from the HTML.
@@ -41,98 +84,105 @@
           work correctly both with client-side routing and a non-root public URL.
           Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Onion</title>
+    <title>Congressi Internazionali</title>
 
-        <!-- FUSE Splash Screen CSS -->
-        <style>
-            body #fuse-splash-screen {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #111827;
-                color: #F9FAFB;
-                z-index: 999999;
-                pointer-events: none;
-                opacity: 1;
-                visibility: visible;
-                transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    <!-- FUSE Splash Screen CSS -->
+    <style>
+        body #fuse-splash-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #111827;
+            color: #F9FAFB;
+            z-index: 999999;
+            pointer-events: none;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body #fuse-splash-screen img {
+            width: 120px;
+            max-width: 120px;
+        }
+
+        #spinner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 40px;
+            width: 56px;
+        }
+
+        #spinner>div {
+            width: 12px;
+            height: 12px;
+            background-color: #1E96F7;
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
+            animation: fuse-bouncedelay 1s infinite ease-in-out both;
+        }
+
+        #spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        #spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes fuse-bouncedelay {
+
+            0%,
+            80%,
+            100% {
+                -webkit-transform: scale(0)
             }
 
-            body #fuse-splash-screen img {
-                width: 120px;
-                max-width: 120px;
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes fuse-bouncedelay {
+
+            0%,
+            80%,
+            100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
             }
 
-            #spinner {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 40px;
-                width: 56px;
+            40% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
             }
+        }
+    </style>
+    <!-- / FUSE Splash Screen CSS -->
+</head>
 
-            #spinner > div {
-                width: 12px;
-                height: 12px;
-                background-color: #1E96F7;
-                border-radius: 100%;
-                display: inline-block;
-                -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
-                animation: fuse-bouncedelay 1s infinite ease-in-out both;
-            }
-
-            #spinner .bounce1 {
-                -webkit-animation-delay: -0.32s;
-                animation-delay: -0.32s;
-            }
-
-           #spinner .bounce2 {
-                -webkit-animation-delay: -0.16s;
-                animation-delay: -0.16s;
-            }
-
-            @-webkit-keyframes fuse-bouncedelay {
-                0%, 80%, 100% {
-                    -webkit-transform: scale(0)
-                }
-                40% {
-                    -webkit-transform: scale(1.0)
-                }
-            }
-
-            @keyframes fuse-bouncedelay {
-                0%, 80%, 100% {
-                    -webkit-transform: scale(0);
-                    transform: scale(0);
-                }
-                40% {
-                    -webkit-transform: scale(1.0);
-                    transform: scale(1.0);
-                }
-            }
-
-
-        </style>
-        <!-- / FUSE Splash Screen CSS -->
-    </head>
-    <body>
+<body>
 
     <noscript>
         You need to enable JavaScript to run this app.
     </noscript>
 
-    <div id='root' class='flex'>
+    <div id='root' translate="no" class='flex'>
         <!-- FUSE Splash Screen -->
         <div id='fuse-splash-screen'>
-            <div class='logo'>
+            <!-- <div class='logo'>
                 <img width='128' src='assets/images/logo/logo.svg' alt='logo'>
-            </div>
+            </div> -->
             <div id='spinner'>
                 <div class='bounce1'></div>
                 <div class='bounce2'></div>
@@ -142,6 +192,13 @@
         <!-- / FUSE Splash Screen -->
     </div>
     <script type="module" src="/src/index.tsx"></script>
+    <!-- Start of enfin348 Zendesk Widget script -->
+    <!-- Start of enfin348 Zendesk Widget script -->
+    <!-- Start of enfin348 Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=487c8f35-3cde-4634-a222-c40024118b2a"> </script>
+    <!-- End of enfin348 Zendesk Widget script -->
+    <!-- End of enfin348 Zendesk Widget script -->
+    <!-- End of enfin348 Zendesk Widget script -->
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -152,5 +209,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    </body>
+</body>
+
 </html>

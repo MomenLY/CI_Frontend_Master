@@ -1,0 +1,19 @@
+{
+    "resetPassword_currentPasswordRequiredMessage":"Current Password is required",
+    "resetPassword_LeadingSpaceMessage": "Password cannot start with space",
+    "resetPassword_SpacesOnlyMessage": "Password cannot only contain spaces",
+    "resetPassword_newPasswordRequiredMessage": "New Password is required",
+    "resetPassword_confirmPasswordRequiredMessage": "Confirm Password is required",
+    "resetPassword_confirmPasswordMismatchMessage": "Confirm Password and New Password are not same",
+    "resetPassword_currentPassword": "Current Password",
+    "resetPassword_newPassword": "New Password",
+    "resetPassword_confirmPassword": "Confirm Password",
+    "resetPassword_passwordReset_success": "Password Reset successful",
+    "resetPassword_newPasswordSameAsCurrentMessage": "New password cannot be the same as the current password",
+    "resetPassword_heading": "Reset Password",
+    "resetPassword_helperText": "Please enter your current password followed by a new password that meets our security requirements.",
+    "resetPassword_newPasswordDigitMessage": "Your password must include at least one digit (0-9)",
+    "resetPassword_newPasswordSymbolMessage": "Your password must include at least one special character (e.g., @, #, $, %, &)",
+    "resetPassword_newPasswordMinLengthMessage": "Your password must be at least 8 characters long",
+    "resetPassword_errorMessage": "An unexpected error occurred. Please try again."
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-function OnionNotFound() {
+function OnionNotFound({message}) {
   const { t } = useTranslation();
 
   return (
@@ -11,13 +11,14 @@ function OnionNotFound() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        width: '100vw',
+        width: '100%',
         textAlign: 'center',
-        // backgroundColor: '#f0f0f0', // Optional: Add a background color for better visibility
+        flex:"1",
+                // backgroundColor: '#f0f0f0', // Optional: Add a background color for better visibility
       }}>
 
         <Typography variant="h6" color="textSecondary">
-          {t('onionNoRecordFound')}
+          {message ? message : t('onionNoRecordFound')}
         </Typography>
       </div>
   )

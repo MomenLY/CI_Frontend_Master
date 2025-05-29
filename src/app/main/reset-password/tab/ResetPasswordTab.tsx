@@ -13,13 +13,14 @@ import { showMessage } from '@fuse/core/FuseMessage/fuseMessageSlice';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingsApi } from '../../sign-up/apis/Settings-Api';
-import { CircularProgress, ClickAwayListener, Tooltip } from '@mui/material';
+import { CircularProgress, ClickAwayListener, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip } from '@mui/material';
 import { log } from 'console';
 import OnionPasswordPreview from 'app/shared-components/components/OnionPasswordPreview';
 import { useSelector } from 'react-redux';
 import { selectUser, selectUserRole, selectUserSettings } from 'src/app/auth/user/store/userSlice';
 import { setUserRole } from 'src/app/auth/user/store/adminSlice';
 import { useAuth } from 'src/app/auth/AuthRouteProvider';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 
 type FormType = {
@@ -50,8 +51,10 @@ function ResetPasswordTab() {
 	// Get specific user details
 	// const userRole = useSelector(selectUserRole);
 	const userSettings = useSelector(selectUserSettings);
-	const userRole_ = useSelector((state:any) => state.userList.userRole);
-	const userRole = useSelector((state:any)=> state.userList.loggedUser)
+	const userRole_ = useSelector((state: any) => state.userList.userRole);
+	const userRole = useSelector((state: any) => state.userList.loggedUser)
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
 	const getPasswordData = async () => {
 		const passwordData = await SettingsApi({ settingsKey: 'password' })
@@ -60,14 +63,9 @@ function ResetPasswordTab() {
 		};
 	};
 
-	console.log(userRole_,"from userRole reduer");
-	
-	console.log(userRole.role,"logged user from loggedReducer");
-	
-
 	useEffect(() => {
 		getPasswordData();
-	},[])
+	}, [])
 
 	const schema = z
 		.object({
@@ -75,13 +73,13 @@ function ResetPasswordTab() {
 				.string()
 				.nonempty(`${t('enterYourPassword')}`)
 				.min(prevData?.passwordRange || 6, `${t("passwordMustBeAtLeast")} ${prevData?.passwordRange || 6} ${t('characters')}`)
-				.regex(prevData?.requireMinimumOneCapitalLetter ? /[A-Z]/ : /(?:)/, prevData?.requireMinimumOneCapitalLetter && { message: `${t('passwordMustIncludeAtLeastOneCapitalLetter')}` })
-				.regex(prevData?.requireMinimumOneNumerical ? /[0-9]/ : /(?:)/, prevData?.requireMinimumOneNumerical && { message: `${t('passwordMustIncludeAtLeastANumerical')}` })
-				.regex(prevData?.requireMinimumOneSpecialCharacter ? /[!@#$%^&*(),.?":{}|<>]/ : /(?:)/, prevData?.requireMinimumOneSpecialCharacter && { message: `${t('passwordMustIncludeAtLeastASpecialCharacter')}` }),
-			passwordConfirm: z.string().nonempty(`${t('passwordConfirmationIsRequired')}`)
+				.regex(prevData?.requireMinimumOneCapitalLetter ? /[A-Z]/ : /(?:)/, prevData?.requireMinimumOneCapitalLetter && { message: 'passwordMustIncludeAtLeastOneCapitalLetter'})
+				.regex(prevData?.requireMinimumOneNumerical ? /[0-9]/ : /(?:)/, prevData?.requireMinimumOneNumerical && { message: 'passwordMustIncludeAtLeastANumerical' })
+				.regex(prevData?.requireMinimumOneSpecialCharacter ? /[!@#$%^&*(),.?":{}|<>]/ : /(?:)/, prevData?.requireMinimumOneSpecialCharacter && { message: 'passwordMustIncludeAtLeastASpecialCharacter' }),
+			passwordConfirm: z.string().nonempty('passwordConfirmationIsRequired')
 		})
 		.refine((data) => data.password === data.passwordConfirm, {
-			message: `${t('mustMatchTheAbovePassword')}`,
+			message: 'mustMatchTheAbovePassword',
 			path: ['passwordConfirm']
 		});
 
@@ -113,7 +111,7 @@ function ResetPasswordTab() {
 		reset(defaultValues);
 		setTimeout(() => {
 			dispatch(setUserRole(userRole.role));
-			navigate('/admin/dashboard');
+			navigate('/admin/expo-management');
 			setIsLoading((prev) => !prev);
 		}, 200);
 	}, 300);
@@ -170,18 +168,49 @@ function ResetPasswordTab() {
 			reset(defaultValues);
 			setIsLoading((prev) => !prev);
 		}
-
 	}
+
+	useEffect(() => {
+		if (!errors.password) {
+			setOpen(false);
+		} else {
+			setOpen(true);
+		}
+	}, [errors.password])
+
+	const handleClickShowPassword = () => {
+		setShowPassword((show) => !show)
+	};
+
+	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleClickShowConfirmPassword = () => {
+		setShowConfirmPassword((show) => !show)
+	};
+
+	const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleMouseUpConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
 
 	return (
 		<div className="mx-auto w-full max-w-320 sm:mx-0 sm:w-320">
-			<img
+			{/* <img
 				className="w-48"
 				src="assets/images/logo/logo.svg"
 				alt="logo"
-			/>
+			/> */}
 
-			<Typography className="mt-32 text-4xl font-extrabold leading-tight tracking-tight">
+			<Typography className="mt-32 text-4xl font-bold leading-tight tracking-tight">
 				{t('resetYourPassword')}
 			</Typography>
 			<Typography className="font-medium">{t('createANewPasswordForYourAccount')}</Typography>
@@ -198,45 +227,83 @@ function ResetPasswordTab() {
 						name="password"
 						control={control}
 						render={({ field }) => (
-							<OnionPasswordPreview
-								isOpen={open}
-								onClose={() => setOpen(false)}
-								password={field.value}
-							>
-								<TextField
-									{...field}
-									className="mb-24"
-									label={t('password')}
-									type="password"
-									error={!!errors.password}
-									helperText={errors?.password?.message}
-									variant="outlined"
-									required
-									fullWidth
-									onClick={() => setOpen(true)}
-								/>
-							</OnionPasswordPreview>
+							<FormControl className="w-full md:max-w-[335px] mb-20" variant="outlined" error={!!errors.password}>
+								<InputLabel htmlFor="outlined-adornment-password">
+									{t('password')}
+								</InputLabel>
+
+								<OnionPasswordPreview
+									isOpen={open}
+									onClose={() => setOpen(false)}
+									password={field.value}
+								>
+									<OutlinedInput
+										{...field}
+										id="outlined-adornment-password"
+										type={showPassword ? 'text' : 'password'}
+										label={t('password')}
+										error={!!errors.password}
+										onChange={(e) => {
+											field.onChange(e);
+											if (errors.password) {
+												setOpen(true)
+											}
+										}}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={handleClickShowPassword}
+													onMouseDown={handleMouseDownPassword}
+													onMouseUp={handleMouseUpPassword}
+													edge="end"
+												>
+													{showPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										}
+									/>
+								</OnionPasswordPreview>
+								<FormHelperText>
+									{t(errors?.password?.message)}
+								</FormHelperText>
+							</FormControl>
 						)}
 					/>
-
 					<Controller
 						name="passwordConfirm"
 						control={control}
 						render={({ field }) => (
-							<TextField
-								{...field}
-								className="mb-24"
-								label={`${t('password')}(${t('confirm')})`}
-								type="password"
-								error={!!errors.passwordConfirm}
-								helperText={errors?.passwordConfirm?.message}
-								variant="outlined"
-								required
-								fullWidth
-							/>
+							<FormControl className="w-full md:max-w-[335px] mb-24" variant="outlined" error={!!errors.passwordConfirm}>
+								<InputLabel htmlFor="outlined-adornment-password">
+									{`${t('password')}(${t('confirm')})`}
+								</InputLabel>
+								<OutlinedInput
+									{...field}
+									id="outlined-adornment-password"
+									type={showConfirmPassword ? 'text' : 'password'}
+									label={`${t('password')}(${t('confirm')})`}
+									error={!!errors.passwordConfirm}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowConfirmPassword}
+												onMouseDown={handleMouseDownConfirmPassword}
+												onMouseUp={handleMouseUpConfirmPassword}
+												edge="end"
+											>
+												{showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+											</IconButton>
+										</InputAdornment>
+									}
+								/>
+								<FormHelperText>
+									{t(errors?.passwordConfirm?.message)}
+								</FormHelperText>
+							</FormControl>
 						)}
 					/>
-
 					<Button
 						variant="contained"
 						color="secondary"

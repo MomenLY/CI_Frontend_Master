@@ -105,7 +105,7 @@ function DataTable<TData>(
             right: ['mrt-row-actions']
           },
           pagination: {
-            pageSize: 5
+            pageSize: 50
           },
           enableFullScreenToggle: false,
           showProgressBars: true
@@ -141,11 +141,11 @@ function DataTable<TData>(
         positionToolbarAlertBanner: "top",
         muiPaginationProps: {
           color: "secondary",
-          rowsPerPageOptions: [5, 75, 100],
+          rowsPerPageOptions: [50, 75, 100],
           shape: "rounded",
           variant: "text",
           showRowsPerPage: true,
-          value: 5,
+          value: 50,
         },
         muiSearchTextFieldProps: {
           placeholder: "Search",
@@ -287,5 +287,3 @@ function DataTable<TData>(
 }
 
 export default DataTable;
-
-

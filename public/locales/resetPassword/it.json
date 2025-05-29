@@ -1,0 +1,19 @@
+{
+    "resetPassword_currentPasswordRequiredMessage": "La password attuale è obbligatoria",
+    "resetPassword_LeadingSpaceMessage": "La password non può iniziare con uno spazio",
+    "resetPassword_SpacesOnlyMessage": "La password non può contenere solo spazi",
+    "resetPassword_newPasswordRequiredMessage": "La nuova password è obbligatoria",
+    "resetPassword_confirmPasswordRequiredMessage": "La conferma della password è obbligatoria",
+    "resetPassword_confirmPasswordMismatchMessage": "La conferma della password e la nuova password non sono uguali",
+    "resetPassword_currentPassword": "Password attuale",
+    "resetPassword_newPassword": "Nuova password",
+    "resetPassword_confirmPassword": "Conferma password",
+    "resetPassword_passwordReset_success": "Reimpostazione della password avvenuta con successo",
+    "resetPassword_newPasswordSameAsCurrentMessage": "La nuova password non può essere uguale alla password attuale",
+    "resetPassword_heading": "Reimposta password",
+    "resetPassword_helperText": "Inserisci la tua password attuale seguita da una nuova password che soddisfi i nostri requisiti di sicurezza.",
+    "resetPassword_newPasswordDigitMessage": "La tua password deve includere almeno un numero (0-9)",
+    "resetPassword_newPasswordSymbolMessage": "La tua password deve includere almeno un carattere speciale (ad es., @, #, $, %, &)",
+    "resetPassword_newPasswordMinLengthMessage": "La tua password deve essere lunga almeno 8 caratteri",
+    "resetPassword_errorMessage": "Si è verificato un errore imprevisto. Riprova."
+}

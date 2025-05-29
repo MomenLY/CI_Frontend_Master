@@ -36,13 +36,11 @@ function EditForm() {
     }
 
     const getRoleModule = async (id: string) => {
-
         let roleModules = await LocalCache.getItem(
             (
                 roleType === 'admin' ? cacheIndex.roleModulesAdmin : cacheIndex.roleModulesEndUser),
             getRoleModules.bind(null, roleType)
         );
-        console.log(roleModules, "roleModulesroleModules");
         const _roleModules = [];
         Object.entries(roleModules).forEach(([key, roleModule]) => {
             _roleModules.push(roleModule);

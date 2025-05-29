@@ -36,7 +36,7 @@ function ToolbarLayout3(props: ToolbarLayout3Props) {
 				color="default"
 				style={{ backgroundColor: toolbarTheme.palette.background.paper }}
 			>
-				<Toolbar className="container min-h-48 p-0 md:min-h-64 lg:px-24">
+				<Toolbar className="container min-h-48 p-0 md:min-h-60 lg:px-24">
 					{config.navbar.display && (
 						<Hidden lgUp>
 							<NavbarToggleButton className="mx-0 h-40 w-40 p-0 sm:mx-8" />
@@ -63,7 +63,7 @@ function ToolbarLayout3(props: ToolbarLayout3Props) {
 							{/* <NavigationSearch /> */}
 						</Hidden>
 						<LanguageSwitcher />
-						<AdjustFontSize />
+						{/* <AdjustFontSize /> */}
 						<FullScreenToggle />
 						{/* <QuickPanelToggleButton /> */}
 						<UserMenu />

@@ -1,0 +1,12 @@
+{
+    "attendees_heading": "Katılımcılar",
+    "attendees_slNo": "Sl. Yok hayır:",
+    "attendees_addButton_text": "Katılımcı Ekle",
+    "attendees_name": "İsim",
+    "attendees_email": "E-posta",
+    "attendees_phoneNumber": "Telefon numarası",
+    "attendee_deleteMessage": "Katılımcı silindi",
+    "attendee_deleteAttendee_confirmTitle": "Katılımcıyı Sil",
+    "attendee_deleteAttendee_confirmMessage": "Bu katılımcıyı silmek istediğinizden emin misiniz?",
+    "addAttendees_heading": "Add Attendee"
+}

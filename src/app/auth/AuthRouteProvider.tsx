@@ -58,7 +58,6 @@ function AuthRouteProvider(props: AuthProviderProps) {
 	// const userRolex = useSelector((state) => state.userList.userRole);
 
 // const userRole = useSelector((state)=>state.userList.userRole)
-// console.log(userRolex,"from redux");
 
 	/**
 	 * Jwt auth service

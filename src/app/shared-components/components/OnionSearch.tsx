@@ -1,4 +1,4 @@
-import { Box, Input } from '@mui/material';
+import { Box, IconButton, Input } from '@mui/material';
 import { motion } from 'framer-motion';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 
@@ -45,6 +45,17 @@ function OnionSearch({
                         setKeyword(e.target.value)
                     }}
                 />
+                {keyword && (
+                    <IconButton
+                        onClick={() => setKeyword('')}
+                        aria-label="clear search"
+                        size="small"
+                    >
+                        <FuseSvgIcon color="action" size={20}>
+                            heroicons-outline:x
+                        </FuseSvgIcon>
+                    </IconButton>
+                )}
             </Box>
         </div>
     )

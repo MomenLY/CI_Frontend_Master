@@ -12,7 +12,7 @@ interface ContentProps {
     footerButtonDisabled?: boolean;
     isFooterButtonLoading?: boolean;
     footerButtonClick?: () => void;
-    exitEndpoint: string;
+    exitEndpoint: string | number;
     footerButtonSize?: 'full' | 'large' | 'medium' | 'small';
     sidebarWidth: 'full' | 'medium' | 'small';
 }
@@ -31,10 +31,11 @@ function OnionSidebar({
     sidebarWidth = 'small',
 }: ContentProps) {
     return (
-        <div className={`flex flex-col flex-auto rounded-lg ${sidebarWidth === 'small' && 'w-full md:w-[48rem]'} ${sidebarWidth === 'medium' && 'w-full md:w-[64rem]'} ${sidebarWidth === 'full' && 'w-full md:w-[98rem]'} max-w-full`}>
+        <div className={`flex flex-col flex-auto rounded-lg h-screen ${sidebarWidth === 'small' && 'w-full md:w-[48rem]'} ${sidebarWidth === 'medium' && 'w-full md:w-[64rem]'} ${sidebarWidth === 'full' && 'w-full md:w-[98rem]'} max-w-full`}>
             <Box
                 sx={{
-                    backgroundColor: 'background.paper'
+                    backgroundColor: 'background.paper',
+                    borderRadius: '16px 0 0 0',
                 }}
                 className='pt-36 pb-16 px-44 sticky top-0 z-30'>
                 <Typography color="text" className="text-[18px] font-semibold block leading-8">
@@ -53,12 +54,29 @@ function OnionSidebar({
                     <FuseSvgIcon>heroicons-outline:x</FuseSvgIcon>
                 </IconButton>
             </Box>
-            <Container className={`pt-16 pb-88 px-44`}>
+            <Container className={`pt-16 pb-88 px-44`}
+                sx={{
+                    flex: '1 1 auto',
+                    webkitOverflowScrolling: 'touch',
+                    overflowY: 'auto',
+                }}
+            >
                 {children}
             </Container>
             {footer && <Box
-                className={`py-16 px-44 fixed bottom-0 z-30 shadow-[0_2px_10px_0px_rgba(0,0,0,0.18)] ${sidebarWidth === 'small' && 'w-full md:w-[48rem]'} ${sidebarWidth === 'medium' && 'w-full md:w-[64rem]'} ${sidebarWidth === 'full' && 'w-full md:w-[98rem]'}`}
-                sx={{ bgcolor: 'background.paper', p: 2, position: 'fixed', bottom: 0, width: '100%', justifyContent: 'flex-end' }}>
+                // className={`py-16 px-44 fixed bottom-0 z-30 shadow-[0_2px_10px_0px_rgba(0,0,0,0.18)] ${sidebarWidth === 'small' && 'w-full md:w-[48rem]'} ${sidebarWidth === 'medium' && 'w-full md:w-[64rem]'} ${sidebarWidth === 'full' && 'w-full md:w-[98rem]'}`}
+                // sx={{ bgcolor: 'background.paper', p: 2, position: 'fixed', bottom: 0, width: '100%', justifyContent: 'flex-end' }}
+
+
+                className="py-16 px-44  text-right shadow-[0_2px_10px_0px_rgba(0,0,0,0.18)]"
+                sx={{
+                    backgroundColor: "background.paper",
+                    borderRadius: '0 0 0 16px',
+                }}
+
+
+
+            >
                 <div className=" flex !justify-end">
                     <Button
                         type="submit"
@@ -66,7 +84,7 @@ function OnionSidebar({
                         color="secondary"
                         disabled={footerButtonDisabled || isFooterButtonLoading}
                         onClick={footerButtonClick}
-                        className={`${footerButtonSize === 'medium' && 'w-1/3'} ${footerButtonSize === 'small' && 'w-auto'} ${footerButtonSize === 'full' && 'w-full'} ${footerButtonSize === 'large' && 'w-2/3'}`}
+                        className={`${footerButtonSize === 'medium' && 'w-1/3'} ${footerButtonSize === 'small' && 'w-auto'} ${footerButtonSize === 'full' && 'w-full'} ${footerButtonSize === 'large' && 'w-2/3'} rounded-[10px]`}
                     >
                         {isFooterButtonLoading === true ? (
                             <CircularProgress
@@ -79,7 +97,7 @@ function OnionSidebar({
                     </Button>
                 </div>
             </Box>}
-        </div>
+        </div >
     )
 }
 

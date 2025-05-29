@@ -1,0 +1,9 @@
+{
+    "validEmailMessage": "Devi inserire un indirizzo email valido",
+    "emailRequiredMessage": "Devi inserire un indirizzo email",
+    "passwordMinLengthMessage": "La password è troppo corta - deve essere di almeno 4 caratteri.",
+    "passwordRequiredMessage": "Inserisci la tua password.",
+    "firstNameRequiredMessage": "Il nome è obbligatorio",
+    "lastNameRequiredMessage": "Il cognome è obbligatorio",
+    "roleRequiredMessage": "Il ruolo è obbligatorio"
+}

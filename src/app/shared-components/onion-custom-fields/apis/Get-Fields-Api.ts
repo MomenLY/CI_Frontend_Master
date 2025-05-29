@@ -5,7 +5,7 @@ export const GetFieldsAPI = async ({ data, type }) => {
 		const response = await axios.request({
 			url: `/${data}`,
 			method: 'get',
-			data: {
+			params: {
 				pFFormType: type
 			}
 		});
@@ -15,3 +15,5 @@ export const GetFieldsAPI = async ({ data, type }) => {
 		return error;
 	}
 };
+
+

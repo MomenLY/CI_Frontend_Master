@@ -89,6 +89,27 @@ class LocalCache {
       return false;
     }
   }
+
+  static async clearAll(): Promise<boolean> {
+    try {
+      const db = await this.idb.getDB();
+      const transaction = db.transaction(db.objectStoreNames, "readwrite");
+  
+      for (const storeName of db.objectStoreNames) {
+        transaction.objectStore(storeName).clear();
+      }
+  
+      return new Promise((resolve, reject) => {
+        transaction.oncomplete = () => resolve(true);
+        transaction.onerror = () => reject(false);
+      });
+    } catch (error) {
+      console.error("Error clearing all data from IndexedDB:", error);
+      return false;
+    }
+  }
+  
 }
+
 
 export default LocalCache;

@@ -4,17 +4,20 @@ import { useParams } from 'react-router';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Error500Page from '../404/Error500Page';
 import ResetPassword from './ResetPassword';
+import { useTranslation } from 'react-i18next';
 
 function LoadingFallback() {
 	return <FuseLoading />;
 }
 
 function ResetPasswordWithID() {
-    const { id } = useParams();
+	const { id } = useParams();
 
-    const [isTokenValid, setIsTokenValid] = useState<boolean>(true);
+	const [isTokenValid, setIsTokenValid] = useState<boolean>(true);
 	const [loaded, setLoaded] = useState<boolean>(false);
-    useEffect(() => {
+	const { t } = useTranslation('')
+
+	useEffect(() => {
 		const tokenValidator = async () => {
 			try {
 				const IsTokenValid = await TokenValidatorApi({ data: id });
@@ -24,8 +27,6 @@ function ResetPasswordWithID() {
 					setIsTokenValid(true);
 				}
 			} catch (err) {
-
-	
 				setLoaded(true);
 				setIsTokenValid(false);
 			}
@@ -33,15 +34,15 @@ function ResetPasswordWithID() {
 		tokenValidator();
 	}, []);
 
-    if (!loaded) {
+	if (!loaded) {
 		return <LoadingFallback />;
 	}
-    return (
+	return (
 		<Suspense fallback={<LoadingFallback />}>
 			{isTokenValid ? (
 				<ResetPassword />
 			) : (
-				<Error500Page label="The reset link has already been utilized." />
+				<Error500Page label={t('resetPasswordLink_expired')} />
 			)}
 		</Suspense>
 	);

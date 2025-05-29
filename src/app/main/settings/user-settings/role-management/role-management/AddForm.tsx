@@ -113,7 +113,7 @@ export default function AddForm() {
   };
 
   const schema = z.object({
-    name: z.string().nonempty('Role Name should not be empty.'),
+    name: z.string().nonempty('role_name_requiredMessage'),
     roleType: z.string().optional()
   });
 
@@ -121,7 +121,6 @@ export default function AddForm() {
     getSettings();
     const init = async () => {
       const roleRules = await getModuleAccessRules('role');
-      console.log(roleRules, "llllll")
       setRoleRules(roleRules.access);
     }
     init();
@@ -137,7 +136,6 @@ export default function AddForm() {
   }
 
   useEffect(() => {
-
     getRoleData();
   }, []);
 
@@ -162,7 +160,6 @@ export default function AddForm() {
 
   const convertRoleIdtoName = (roleIds, roleObject) => {
     if (!roleIds) return '';
-    console.log(roleIds, roleObject, "roleObject")
     const roleNames = roleIds.map((roleId) => {
       return roleObject[String(roleId)]?.name || null;
     });
@@ -193,7 +190,6 @@ export default function AddForm() {
           keyword,
           sorting,
         });
-        console.log('userData in users', response?.data);
         if (response?.data && Array.isArray(response.data.items)) {
           setUsers((prevUsers) => [...prevUsers, ...response.data.items]);
         } else {
@@ -296,14 +292,12 @@ export default function AddForm() {
           roleIds: [...new Set([...user.roleIds, roleId])],
         }));
         
-        console.log("roleId", selectedUsers);
 
         if (Array.isArray(updatedUsers) && updatedUsers.length > 0) {
           setUpdateUsers(updatedUsers);
           try {
             const userResponse = await BulkUpdateUserAPI(updatedUsers);
             if (userResponse.data.data.failed.length === 0) {
-              console.log(userResponse?.data?.data, "user updated");
               dispatch(showMessage({ message: t('role_addRoleWithUser_success'), variant: "success" }));
               getUserData({ pagination, sorting, keyword });
               navigate('/admin/settings/user-settings/role-management');
@@ -436,7 +430,7 @@ export default function AddForm() {
                     type="name"
                     error={!!errors.name}
                     onChange={(e) => { field.onChange(e.target.value); handleRoleName(e) }}
-                    helperText={errors?.name?.message}
+                    helperText={t(errors?.name?.message)}
                     variant="outlined"
                     fullWidth
                   />

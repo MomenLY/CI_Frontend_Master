@@ -1,0 +1,15 @@
+{
+    "poll_heading": "Sondaggi",
+    "poll_question_label": "Domanda",
+    "poll_launch_btn": "Avvia",
+    "poll_cancel": "Annulla",
+    "poll_option_btn": "AGGIUNGI OPZIONE",
+    "poll_voting_label": "membri hanno votato",
+    "poll_stop_btn": "Ferma",
+    "poll_votes_label": "Voti",
+    "poll_question_message": "La domanda del sondaggio è obbligatoria",
+    "poll_option_message": "L'opzione non può essere vuota",
+    "poll_check_options": "Si prega di fornire almeno due opzioni",
+    "poll_question_placeholder": "Aggiungi domanda al sondaggio",
+    "poll_option_label": "Aggiungi opzione"
+}

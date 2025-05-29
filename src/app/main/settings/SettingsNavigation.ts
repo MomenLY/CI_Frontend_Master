@@ -24,30 +24,30 @@ const SettingsNavigation: FuseNavItemType[] = [
             url: 'general-settings/profile-settings',
             disabled: false
         },
-        {
-            id: 'timezone-settings',
-            title: 'Timezone Settings',
-            type: 'item',
-            icon: 'material-outline:access_time',
-            url: 'general-settings/timezone-settings',
-            disabled: false,
-        },
-        {
-            id: 'storage-cdn',
-            title: 'Storage CDN',
-            type: 'item',
-            icon: 'material-outline:memory',
-            url: 'general-settings/storage-CDN-settings',
-            disabled: true
-        },
-        {
-            id: 'website-settings',
-            title: 'Website Settings',
-            type: 'item',
-            icon: 'material-outline:web',
-            url: 'general-settings/website-settings',
-            disabled: false,
-        }
+        // {
+        //     id: 'timezone-settings',
+        //     title: 'Timezone Settings',
+        //     type: 'item',
+        //     icon: 'material-outline:access_time',
+        //     url: 'general-settings/timezone-settings',
+        //     disabled: false,
+        // },
+        // {
+        //     id: 'storage-cdn',
+        //     title: 'Storage CDN',
+        //     type: 'item',
+        //     icon: 'material-outline:memory',
+        //     url: 'general-settings/storage-CDN-settings',
+        //     disabled: true
+        // },
+        // {
+        //     id: 'website-settings',
+        //     title: 'Website Settings',
+        //     type: 'item',
+        //     icon: 'material-outline:web',
+        //     url: 'general-settings/website-settings',
+        //     disabled: false,
+        // }
     ]
 },
 {
@@ -55,14 +55,14 @@ const SettingsNavigation: FuseNavItemType[] = [
     title: 'User Settings',
     type: 'group',
     children: [
-        {
-            id: 'profile-field-settings',
-            title: 'Profile Field Settings',
-            type: 'item',
-            icon: 'material-outline:ballot',
-            url: 'user-settings/profile-field-settings',
-            disabled: false
-        },
+        // {
+        //     id: 'profile-field-settings',
+        //     title: 'Profile Field Settings',
+        //     type: 'item',
+        //     icon: 'material-outline:ballot',
+        //     url: 'user-settings/profile-field-settings',
+        //     disabled: false
+        // },
         {
             id: 'role-management',
             title: 'Role Management',
@@ -81,103 +81,103 @@ const SettingsNavigation: FuseNavItemType[] = [
         },
     ]
 },
-{
-    id: 'platform-settings',
-    title: 'Platform Settings',
-    type: 'group',
-    children: [
-        {
-            id: 'layout-settings',
-            title: 'Layout Settings',
-            type: 'item',
-            icon: 'material-outline:view_quilt',
-            url: 'platform-settings/layout-settings'
-        },
-        {
-            id: 'login/signup-settings',
-            title: 'Login/Sign up Settings',
-            type: 'item',
-            icon: 'material-outline:login',
-            url: 'platform-settings/login-signup-settings',
-            disabled: false
-        },
-        {
-            id: 'category',
-            title: 'Category',
-            type: 'item',
-            icon: 'material-outline:category',
-            url: 'demo',
-            disabled: true
-        },
-        {
-            id: 'payment-settings',
-            title: 'Payment Settings',
-            type: 'item',
-            icon: 'material-outline:payments',
-            url: 'demo',
-            disabled: true
-        },
-        {
-            id: 'email-template',
-            title: 'Email Template',
-            type: 'item',
-            icon: 'material-outline:email',
-            url: 'demo',
-            disabled: true
-        },
-        {
-            id: 'password-settings',
-            title: 'Password Settings',
-            type: 'item',
-            icon: 'material-outline:lock',
-            url: 'platform-settings/password-settings'
-        },
-        {
-            id: 'label-settings',
-            title: 'Label Settings',
-            type: 'item',
-            icon: 'material-outline:beenhere',
-            url: 'platform-settings/label-settings'
-        },
-        {
-            id: 'masterdata-settings',
-            title: 'Masterdata Settings',
-            type: 'item',
-            icon: 'material-outline:tune',
-            url: 'demo',
-            disabled: true
-        },
-    ]
-},
-{
-    id: 'enquiry-settings',
-    title: 'Enquiry Settings',
-    type: 'group',
-    children: [
-        {
-            id: 'enquiry-form-settings',
-            title: 'Enquiry Form Settings',
-            type: 'item',
-            icon: 'heroicons-outline:document-search',
-            url: 'demo',
-            disabled: true
-        },
-    ]
-},
-{
-    id: 'other-settings',
-    title: 'Other Settings',
-    type: 'group',
-    children: [
-        {
-            id: 'support-settings',
-            title: 'Support Settings',
-            type: 'item',
-            icon: 'material-outline:support',
-            url: 'demo',
-            disabled: true
-        },
-    ]
-},
+// {
+//     id: 'platform-settings',
+//     title: 'Platform Settings',
+//     type: 'group',
+//     children: [
+//         // {
+//         //     id: 'layout-settings',
+//         //     title: 'Layout Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:view_quilt',
+//         //     url: 'platform-settings/layout-settings'
+//         // },
+//         // {
+//         //     id: 'login/signup-settings',
+//         //     title: 'Login/Sign up Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:login',
+//         //     url: 'platform-settings/login-signup-settings',
+//         //     disabled: false
+//         // },
+//         // {
+//         //     id: 'category',
+//         //     title: 'Category',
+//         //     type: 'item',
+//         //     icon: 'material-outline:category',
+//         //     url: 'demo',
+//         //     disabled: true
+//         // },
+//         // {
+//         //     id: 'payment-settings',
+//         //     title: 'Payment Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:payments',
+//         //     url: 'demo',
+//         //     disabled: true
+//         // },
+//         // {
+//         //     id: 'email-template',
+//         //     title: 'Email Template',
+//         //     type: 'item',
+//         //     icon: 'material-outline:email',
+//         //     url: 'demo',
+//         //     disabled: true
+//         // },
+//         // {
+//         //     id: 'password-settings',
+//         //     title: 'Password Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:lock',
+//         //     url: 'platform-settings/password-settings'
+//         // },
+//         // {
+//         //     id: 'label-settings',
+//         //     title: 'Label Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:beenhere',
+//         //     url: 'platform-settings/label-settings'
+//         // },
+//         // {
+//         //     id: 'masterdata-settings',
+//         //     title: 'Masterdata Settings',
+//         //     type: 'item',
+//         //     icon: 'material-outline:tune',
+//         //     url: 'demo',
+//         //     disabled: true
+//         // },
+//     ]
+// },
+// {
+//     id: 'enquiry-settings',
+//     title: 'Enquiry Settings',
+//     type: 'group',
+//     children: [
+//         {
+//             id: 'enquiry-form-settings',
+//             title: 'Enquiry Form Settings',
+//             type: 'item',
+//             icon: 'heroicons-outline:document-search',
+//             url: 'demo',
+//             disabled: true
+//         },
+//     ]
+// },
+// {
+//     id: 'other-settings',
+//     title: 'Other Settings',
+//     type: 'group',
+//     children: [
+//         {
+//             id: 'support-settings',
+//             title: 'Support Settings',
+//             type: 'item',
+//             icon: 'material-outline:support',
+//             url: 'demo',
+//             disabled: true
+//         },
+//     ]
+// },
 ]
 export default SettingsNavigation;

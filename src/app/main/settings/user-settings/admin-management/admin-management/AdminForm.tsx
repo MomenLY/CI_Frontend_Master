@@ -9,7 +9,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { ZodIssueCode, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "@lodash";
 import { useDebounce } from "@fuse/hooks";
@@ -33,6 +33,7 @@ import { getRoles } from "app/shared-components/cache/cacheCallbacks";
 import { SettingsApi } from "../../../SettingsApi";
 import IconButton from "@mui/material/IconButton";
 import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
+import { t } from "i18next";
 
 const defaultValues = {
   firstName: '',
@@ -40,8 +41,9 @@ const defaultValues = {
   email: '',
   password: '',
   role: '',
-  shouldSendEmail: true
-
+  designation: '',
+  organisation: '',
+  shouldSendEmail: true,
 };
 
 type FormData = {
@@ -50,28 +52,19 @@ type FormData = {
   email: string;
   password: string;
   role: string;
+  designation?: string;
+  organisation?: string;
   shouldSendEmail: boolean;
 };
-
-const schema = z.object({
-  firstName: z.string().nonempty("You must enter your name."),
-  lastName: z.string().nonempty("You must enter your name."),
-  email: z
-    .string()
-    .email("You must enter a valid email")
-    .nonempty("You must enter an email"),
-  password: z.string().nonempty("Please enter your password."),
-  role: z.string().nonempty("You must enter a role."),
-  shouldSendEmail: z.boolean(),
-});
 
 function AdminForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('adminManagement');
   const [roleData, setRoleData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [defaultPassword, setDefaultPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState('');
   const location = useLocation();
 
   const GetAllAdmins = useCallback(
@@ -79,7 +72,6 @@ function AdminForm() {
       try {
         const roles = await LocalCache.getItem(cacheIndex.roles, getRoles.bind(null));
         setRoleData(roles ? roles : {});
-
       } catch (error) {
         console.error("Error fetching admin roles:", error);
       }
@@ -104,9 +96,40 @@ function AdminForm() {
     fetchDefaultPassword();
   }, []);
 
-  Onion.log("Helloo")
 
-  const { control, formState, handleSubmit, setValue, getValues } = useForm({
+  const schema = z.object({
+    firstName: z.string().nonempty("adminManagement_firstName_required"),
+    lastName: z.string().nonempty("adminManagement_lastName_required"),
+    email: z
+      .string()
+      .email("adminManagement_valid_email")
+      .nonempty("adminManagement_email_required"),
+    password: z.string().nonempty("adminManagement_password_required"),
+    role: z.string().nonempty("adminManagement_role_required"),
+    designation: z.string().optional(),
+    organisation: z.string().optional(),
+    shouldSendEmail: z.boolean(),
+  }).superRefine((data, ctx) => {
+    if (data.role === import.meta.env.VITE_SPEAKER_ID) {
+      if (!data.designation || data.designation.trim() === '') {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          path: ['designation'],
+          message: 'adminManagement_designation_required',
+        });
+      }
+
+      if (!data.organisation || data.organisation.trim() === '') {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          path: ['organisation'],
+          message: 'adminManagement_organisation_required',
+        });
+      }
+    }
+  });
+
+  const { control, formState, handleSubmit, setValue, watch, getValues } = useForm({
     mode: "onChange",
     defaultValues,
     resolver: zodResolver(schema),
@@ -119,13 +142,22 @@ function AdminForm() {
   }, [defaultPassword, setValue]);
 
   const handleUpdate = useDebounce(() => {
-    dispatch(showMessage({ message: "New User Added", variant: "success" }));
+    dispatch(showMessage({ message: t('new_admin_add_success_message'), variant: "success" }));
     navigate("/admin/settings/user-settings/admin-management");
     setIsLoading((prev) => !prev);
   }, 300);
 
   const onSubmit = async (formData: FormData) => {
-    const data = formData;
+    const data = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      designation: formData.designation,
+      organisation: formData.organisation,
+      roleIds: [formData.role],
+      shouldSendEmail: formData.shouldSendEmail
+    }
 
     setIsLoading((prev) => !prev);
     try {
@@ -141,7 +173,7 @@ function AdminForm() {
       if (errorMesssage) {
         dispatch(
           showMessage({
-            message: errorMesssage || "Server error",
+            message: errorMesssage || t('server_error_message'),
             variant: "error",
           })
         );
@@ -157,7 +189,7 @@ function AdminForm() {
       () => {
         dispatch(
           showMessage({
-            message: "Email and Password copied to clipboard",
+            message: t('email_password_copied_clipboard'),
             variant: "success",
           })
         );
@@ -166,7 +198,7 @@ function AdminForm() {
         console.error('Could not copy text: ', err);
         dispatch(
           showMessage({
-            message: "Failed to copy",
+            message: t('email_password_notCopied_clipboard'),
             variant: "error",
           })
         );
@@ -174,14 +206,13 @@ function AdminForm() {
     );
   };
 
-
   return (
     <OnionSidebar
       title={t("addAdmin")}
       exitEndpoint="/admin/settings/user-settings/admin-management"
       sidebarWidth="small"
       footer={true}
-      footerButtonLabel={t("save")}
+      footerButtonLabel={t("common_save")}
       footerButtonClick={handleSubmit(onSubmit)}
       footerButtonDisabled={_.isEmpty(dirtyFields) || !isValid}
       isFooterButtonLoading={isLoading}
@@ -209,7 +240,7 @@ function AdminForm() {
               autoFocus
               type="firstName"
               error={!!errors.firstName}
-              helperText={errors?.firstName?.message}
+              helperText={t(errors?.firstName?.message)}
               variant="outlined"
               fullWidth
             />
@@ -225,7 +256,7 @@ function AdminForm() {
               autoFocus
               type="lastName"
               error={!!errors.lastName}
-              helperText={errors?.lastName?.message}
+              helperText={t(errors?.lastName?.message)}
               variant="outlined"
               fullWidth
             />
@@ -241,7 +272,7 @@ function AdminForm() {
               autoFocus
               type="email"
               error={!!errors.email}
-              helperText={errors?.email?.message}
+              helperText={t(errors?.email?.message)}
               variant="outlined"
               fullWidth
             />
@@ -257,7 +288,7 @@ function AdminForm() {
               autoFocus
               type="text"
               error={!!errors.password}
-              helperText={errors?.password?.message}
+              helperText={t(errors?.password?.message)}
               variant="outlined"
               fullWidth
               InputProps={{
@@ -278,11 +309,18 @@ function AdminForm() {
               <TextField
                 id="outlined-select-currency"
                 label={t("role")}
+                helperText={t(errors?.role?.message)}
                 select
                 {...field}
+                onChange={(e) => {
+                  const selectedRoleName = roleData.find(role => role._id === e.target.value)?.name;
+                  setSelectedRole(selectedRoleName || '');
+                  field.onChange(e);
+                }}
               >
-                {(roleData !== null || undefined) &&
-                  roleData.map((option) => (
+                {roleData
+                  ?.filter((role) => role.roleType !== "enduser")
+                  .map((option) => (
                     <MenuItem key={option._id} value={option._id}>
                       {option.name}
                     </MenuItem>
@@ -291,6 +329,46 @@ function AdminForm() {
             </FormGroup>
           )}
         />
+        {
+          selectedRole === 'Speaker' &&
+          <>
+            <Controller
+              name="designation"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label={t('adminForm_designation')}
+                  required
+                  type="designation"
+                  error={!!errors.designation}
+                  helperText={t(errors?.designation?.message)}
+                  variant="outlined"
+                  fullWidth
+                  className='!mb-0'
+                />
+              )}
+            />
+            <Controller
+              name="organisation"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label={t('adminForm_organisation')}
+                  required
+                  type="organisation"
+                  error={!!errors.organisation}
+                  helperText={t(errors?.organisation?.message)}
+                  variant="outlined"
+                  fullWidth
+                  className='!mb-0'
+                />
+              )}
+            />
+          </>
+        }
+
         <Controller
           name="shouldSendEmail"
           control={control}

@@ -34,7 +34,7 @@ function ForgotPasswordTab() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const schema = z.object({
-        email: z.string().nonempty(`${t('youMustEnterAValidEmail')}`).email(`${t('youMustEnterAnEmail')}`)
+        email: z.string().nonempty('youMustEnterAValidEmail').email('youMustEnterAnEmail')
     });
 
     const { control, formState, handleSubmit, reset, setError,getValues } = useForm({
@@ -72,7 +72,8 @@ function ForgotPasswordTab() {
         } catch (error) {
             const errorMesssage = error?.response?.data?.message
             if (errorMesssage) {
-                dispatch(showMessage({ message: errorMesssage || `${t('emailIsNotFound')}`, variant: 'error', autoHideDuration: 3000 }));
+                if(errorMesssage === 'User Not Found')
+                dispatch(showMessage({ message: t('userNotFound_ContactAdminMessage') || `${t('emailIsNotFound')}`, variant: 'error', autoHideDuration: 3000 }));
                 setError('email', { type: 'email' })   
             }
             setIsLoading((prev) => !prev)
@@ -82,13 +83,13 @@ function ForgotPasswordTab() {
 
     return (
         <div className="mx-auto w-full max-w-320 sm:mx-0 sm:w-320">
-            <img
+            {/* <img
                 className="w-48"
                 src="assets/images/logo/logo.svg"
                 alt="logo"
-            />
+            /> */}
 
-            <Typography className="mt-32 text-4xl font-extrabold leading-tight tracking-tight">
+            <Typography className="mt-32 text-4xl font-bold leading-tight tracking-tight">
                 {t('forgotPassword')}
             </Typography>
             <div className="mt-2 flex items-baseline font-medium">
@@ -113,7 +114,7 @@ function ForgotPasswordTab() {
                             label={t('email')}
                             type="email"
                             error={!!errors.email}
-                            helperText={errors?.email?.message}
+                            helperText={t(errors?.email?.message)}
                             variant="outlined"
                             required
                             fullWidth
@@ -134,7 +135,7 @@ function ForgotPasswordTab() {
                 </Button>
 
                 <Typography
-                    className="mt-32 text-md font-medium"
+                    className="mt-32 text-md font-medium flex justify-center"
                     color="text.secondary"
                 >
                     <span>{t('returnTo')}</span>

@@ -13,8 +13,11 @@ export const getModuleAccessRules = async (module: string, _access?: string) => 
     //fetch feature restriction for the account
     const userData = await LocalCache.getItem(cacheIndex.userData, getUserSession.bind(null));
 
-    const modules = await getRoleModules(userData.role || 'admin');
-    console.log(modules, "modules")
+    const modules = await LocalCache.getItem(
+        (
+            userData?.role === 'admin' ? cacheIndex.roleModulesAdmin : cacheIndex.roleModulesEndUser),
+        getRoleModules.bind(null, userData.role)
+    );
 
     //check module name is valid and if so, assign to a variable
     if (typeof modules[module] === "undefined") {
@@ -82,7 +85,7 @@ export const getModuleAccessRules = async (module: string, _access?: string) => 
         */
 
         const moduleAccessObject = {};
-        Object.entries(moduleObject["accessRules"]).map(([accessKey, accessRule]: [string, any]) => {
+        moduleObject["accessRules"] && Object.entries(moduleObject["accessRules"]).map(([accessKey, accessRule]: [string, any]) => {
             if (!accessRule.connectedFeature || (accessRule.connectedFeature && checkFeatureAvailability(features, accessRule.connectedFeature))) {
                 moduleAccessObject[accessKey] = {
                     permission: (ifModuleNotDefinedInAcl || typeof aclObject[module][accessKey] === "undefined") ? false : aclObject[module][accessKey].permission
@@ -96,7 +99,7 @@ export const getModuleAccessRules = async (module: string, _access?: string) => 
 }
 
 const checkFeatureAvailability = (feature, featureKey) => {
-    if (typeof feature[featureKey] === undefined) {
+    if (feature == null || typeof feature === "undefined" || typeof feature[featureKey] === undefined) {
         return false;
     } else {
         return feature[featureKey]?.active;

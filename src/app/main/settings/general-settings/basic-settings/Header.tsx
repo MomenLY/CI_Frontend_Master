@@ -15,7 +15,7 @@ function Header({ label, content }: Props) {
 			>
 				{label}
 			</Typography>
-			<div className="mt-5 md:w-2xl text-base">{content}</div>
+			<div className="mt-5 md:w-2xl text-base text-justify">{content}</div>
 		</div>
 	);
 }

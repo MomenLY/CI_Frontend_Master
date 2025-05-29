@@ -36,6 +36,7 @@ function OnionConfirmBox({
                 autoFocus
                 variant="contained"
                 fullWidth
+                sx={(confirmButtonLabel && confirmButtonLabel.length) > 18 ? { padding: '28px' } : {}}
             >
                 {confirmButtonLabel ? confirmButtonLabel : t('yes')}
             </Button>
@@ -48,6 +49,7 @@ function OnionConfirmBox({
                 color="inherit"
                 variant='outlined'
                 fullWidth
+                sx={(confirmButtonLabel && confirmButtonLabel.length) > 15 ? { padding: '28px' } : {}}
             >
                 {cancelButtonLabel ? cancelButtonLabel : t('no')}
             </Button>

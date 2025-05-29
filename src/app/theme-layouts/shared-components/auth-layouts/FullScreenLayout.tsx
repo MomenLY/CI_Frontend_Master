@@ -10,10 +10,10 @@ import { ReactNode } from 'react';
  */
 
 type Props = {
-    children: ReactNode;
+	children: ReactNode;
 }
-function FullScreenLayout({children}:Props) {
-	
+function FullScreenLayout({ children }: Props) {
+
 	return (
 		<div className="flex min-w-0 flex-auto flex-col items-center sm:flex-row sm:justify-center md:items-start md:justify-start">
 			<Paper className="h-full w-full px-16 py-32 ltr:border-r-1 rtl:border-l-1 sm:h-auto sm:w-auto sm:rounded-2xl sm:p-48 sm:shadow md:flex md:h-full md:justify-end md:rounded-none md:p-64 md:pt-96 md:shadow-none">
@@ -88,29 +88,10 @@ function FullScreenLayout({children}:Props) {
 				<div className="relative z-10 w-full max-w-2xl">
 					<div className="text-7xl font-bold leading-none text-gray-100">
 						<div>Welcome to</div>
-						<div>our community</div>
+						<div>Congressi Internazionali</div>
 					</div>
 					<div className="mt-24 text-lg leading-6 tracking-tight text-gray-400">
-						Fuse helps developers to build organized and well coded dashboards full of beautiful and rich
-						modules. Join us and start building your application today.
-					</div>
-					<div className="mt-32 flex items-center">
-						<AvatarGroup
-							sx={{
-								'& .MuiAvatar-root': {
-									borderColor: 'primary.main'
-								}
-							}}
-						>
-							<Avatar src="assets/images/avatars/female-18.jpg" />
-							<Avatar src="assets/images/avatars/female-11.jpg" />
-							<Avatar src="assets/images/avatars/male-09.jpg" />
-							<Avatar src="assets/images/avatars/male-16.jpg" />
-						</AvatarGroup>
-
-						<div className="ml-16 font-medium tracking-tight text-gray-400">
-							More than 17k people joined us, it's your turn
-						</div>
+						Our Guarantees · Translation and interpreting agency with the highest growth rate in Italy in 2022
 					</div>
 				</div>
 			</Box>

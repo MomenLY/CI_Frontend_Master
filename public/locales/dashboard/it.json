@@ -1,0 +1,22 @@
+{
+    "dashboard_widget_seats_available": "Posti Disponibili",
+    "dashboard_widget_registrations": "Registrazioni",
+    "dashboard_widget_total_seats": "Posti Totali",
+    "dashboard_widget_title": "Analisi delle Registrazioni",
+    "dashboard_widget_unlimited": "Illimitato",
+    "dashboard_expo_analitics_header": "Analisi delle Prestazioni dell'Expo",
+    "dashboard_expo_analitics_discription": "La tua visione completa di registrazioni, attività degli stand e performance dei cartelloni pubblicitari in un unico posto - per aiutarti a prendere decisioni più intelligenti per il tuo evento.",
+    "dashboard_expo_header": "Dashboard del Portfolio Expo",
+    "dashboard_expo_discription": "Una panoramica in tempo reale dell'intero ecosistema expo: monitora il totale degli eventi, traccia i formati di consegna e segui l'avanzamento della timeline, tutto in un'unica dashboard intuitiva.",
+    "dashboard_total_expo": "Totale Expo",
+    "dashboard_ongoing_expo": "Expo in Corso",
+    "dashboard_past_expo": "Expo Passati",
+    "dashboard_future_expo": "Expo Futuri",
+    "dashboard_online_expo": "Expo Online",
+    "dashboard_on_site_expo": "Expo in Presenza",
+    "dashboard_hybrid_expo": "Expo Ibrido",
+    "dashboard_select_expo": "Seleziona Expo",
+    "dashboard_billboard_booth_header": "Analisi di cartelloni pubblicitari e stand",
+    "dashboard_billboard_analytics": "Analisi dei cartelloni pubblicitari",
+    "dashboard_booth_analytics": "Analisi dello stand"
+}

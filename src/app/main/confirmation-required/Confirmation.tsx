@@ -1,5 +1,6 @@
 import { pageLayout } from 'app/configs/settingsConfig';
 import React, { Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Lazy-loaded components
 const ClassicConfirmation = React.lazy(() => import('./confirmation-layout/ClassicConfirmation'));
@@ -8,7 +9,10 @@ const ModernReversedConfirmation = React.lazy(() => import('./confirmation-layou
 const FullScreenConfirmation = React.lazy(() => import('./confirmation-layout/FullScreenConfirmation'));
 
 // Fallback component for Suspense
-const LoadingFallback = () => <div>Loading...</div>;
+const LoadingFallback = () => {
+    const { t } = useTranslation('default')
+    return <div>{t('loading')}</div>;
+};
 
 function Confirmation() {
   // Define a map of page layout components

@@ -25,5 +25,6 @@
     "role_roleUpdate_failed": "The is an error in updating the role.",
     "role_addRoleRoleAlreadyExists_warning": "The role already exists.",
     "role_addRoleWithUsers_error": "Failed to update users",
-    "role_addRoleUsersNotFound_error": "No Users Found"
+    "role_addRoleUsersNotFound_error": "No Users Found",
+    "role_name_requiredMessage": "Role name is required"
 }

@@ -6,14 +6,14 @@ import { FuseNavigationProps } from '../FuseNavigation';
 import { FuseNavItemType } from '../types/FuseNavItemType';
 
 const StyledList = styled(List)(({ theme }) => ({
-	'& .fuse-list-item': {
-		'&:hover': {
-			backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,.04)'
-		},
-		'&:focus:not(.active)': {
-			backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0,0,0,.05)'
-		}
-	},
+	// '& .fuse-list-item': {
+	// 	'&:hover': {
+	// 		backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,.04)'
+	// 	},
+	// 	'&:focus:not(.active)': {
+	// 		backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0,0,0,.05)'
+	// 	}
+	// },
 	'& .fuse-list-item-text': {
 		margin: 0
 	},

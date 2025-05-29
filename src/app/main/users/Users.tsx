@@ -12,7 +12,7 @@ import { getModuleAccessRules } from 'src/utils/aclLibrary';
 const Root = styled(FusePageSimple)(({ theme }) => ({
 	'& .FusePageSimple-header': {
 		backgroundColor: theme.palette.background.paper,
-		borderBottomWidth: 1,
+		borderBottomWidth: 0,
 		borderStyle: 'solid',
 		borderColor: theme.palette.divider
 	},

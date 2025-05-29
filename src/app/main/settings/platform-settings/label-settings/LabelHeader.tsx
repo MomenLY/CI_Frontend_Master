@@ -16,7 +16,7 @@ function LabelHeader({ searchData, subTitle, title }: Props) {
 			<div className="flex md:flex-row flex-col justify-between md:items-center space-y-5">
 				<Typography
 					component="h2"
-					className="flex-1 text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate "
+					className="flex-1 text-3xl md:text-4xl font-bold tracking-tight leading-7 sm:leading-10 truncate "
 				>
 					{title}
 				</Typography>

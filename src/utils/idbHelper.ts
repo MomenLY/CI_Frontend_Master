@@ -29,5 +29,9 @@ export default class IDBHelper {
   keys(table?: string) {
     return this.dbPromise.then(db => db.getAllKeys(table || this.selectedTable))
   }
+
+  getDB() {
+    return this.dbPromise;
+  }
 }
 

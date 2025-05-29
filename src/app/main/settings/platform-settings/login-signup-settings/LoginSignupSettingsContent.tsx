@@ -226,6 +226,7 @@ function LoginSignupSettingsContent() {
 						</FormControl>
 					)}
 				/>
+				<div className='flex-col hidden'>
 				<Header
 					label={t('socialMediaLogin')}
 					content={t('socialMediaLoginHelperText')}
@@ -281,7 +282,8 @@ function LoginSignupSettingsContent() {
 						</FormControl>
 					)}
 				/>
-				<div className="flex md:w-1/2 justify-end mt-16 ">
+				</div>
+				<div className="flex md:w-1/2 justify-end mt-20 ">
 					<Button
 						type="submit"
 						variant="contained"

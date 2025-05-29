@@ -62,22 +62,24 @@ function RoleTable({ setKeyword, keyword, rules }: Props) {
         if (noUsers) {
             return {};
         }
-
-        if (name === undefined || name === null || name === '') {
+    
+        if (!name) {
             return {};
         }
-        const nameParts = name.split(' ');
+    
+        const nameParts = name.trim().split(' ');
         const initials = nameParts.length > 1
             ? `${nameParts[0][0]}${nameParts[1][0]}`
-            : name[0];
-
+            : `${nameParts[0][0]}`; // Use only the first letter of the single word.
+    
         return {
             sx: {
                 bgcolor: stringToColor(name),
             },
-            children: initials,
+            children: initials.toUpperCase(), // Ensure initials are uppercase.
         };
-    }
+    };
+    
 
     const stringToColor = (string: string) => {
         let colors = ['#62A1FF', '#FF6262', '#FF62E6', '#FFC52E', '#9D62FF', '#44C969', '#FF3939', '#2461FF', '#8D4221', '#1A4B41', '#4B09B8', '#008A48', '#8DA432', '#6072B0', '#6B0A98', '#044690', '#7E7E7E', '#F98554', '#8F2727', '#44C9AD', '#AE7657', '#047575', '#77D400', '#120B7F', '#4A6F68', '#A23DB3'];
@@ -178,7 +180,7 @@ function RoleTable({ setKeyword, keyword, rules }: Props) {
 
                 setPagination({
                     pageIndex: _pageIndex - 1,
-                    pageSize: _pageSize,
+                    pageSize: _pageSize,    
                 });
                 setPageReady(true);
             } catch (error) {

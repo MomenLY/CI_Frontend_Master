@@ -79,9 +79,9 @@ function PasswordSettingsContent() {
   const schema = z.object({
     passwordRange: z
       .string()
-      .min(1, `${t("pleaseEnterAPasswordRange")}`)
+      .min(1, "pleaseEnterAPasswordRange")
       .refine((value) => parseInt(value) >= 6, {
-        message: `${t("defaultPasswordRangeMustHaveAMinimumValueOf6")}`,
+        message: "defaultPasswordRangeMustHaveAMinimumValueOf6",
       }),
     requireMinimumOneNumerical: z.boolean(),
     resetPasswordAfterFirstLogin: z.boolean(),
@@ -339,7 +339,7 @@ function PasswordSettingsContent() {
                     }}
                     placeholder="6"
                     error={!!errors.passwordRange}
-                    helperText={errors?.passwordRange?.message}
+                    helperText={t(errors?.passwordRange?.message)}
                   />
                 </FormControl>
               )}

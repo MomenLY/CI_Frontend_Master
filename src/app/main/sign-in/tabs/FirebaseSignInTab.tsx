@@ -13,16 +13,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from 'app/store/hooks';
 import { showMessage } from '@fuse/core/FuseMessage/fuseMessageSlice';
 import firebase from 'firebase/compat/app';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Form Validation Schema
  */
 const schema = z.object({
-	email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
+	email: z.string().email('validEmailMessage').nonempty('emailRequiredMessage'),
 	password: z
 		.string()
-		.min(4, 'Password is too short - must be at least 4 chars.')
-		.nonempty('Please enter your password.')
+		.min(4, 'passwordMinLengthMessage')
+		.nonempty('passwordRequiredMessage')
 });
 
 type FormType = {
@@ -40,6 +41,7 @@ const defaultValues = {
 function FirebaseSignInTab() {
 	const { firebaseService } = useAuth();
 	const dispatch = useAppDispatch();
+	const { t } = useTranslation('FirebaseSignInTab');
 
 	const { control, formState, handleSubmit, setValue, setError } = useForm<FormType>({
 		mode: 'onChange',
@@ -120,7 +122,7 @@ function FirebaseSignInTab() {
 							autoFocus
 							type="email"
 							error={!!errors.email}
-							helperText={errors?.email?.message}
+							helperText={t(errors?.email?.message)}
 							variant="outlined"
 							required
 							fullWidth
@@ -138,7 +140,7 @@ function FirebaseSignInTab() {
 							label="Password"
 							type="password"
 							error={!!errors.password}
-							helperText={errors?.password?.message}
+							helperText={t(errors?.password?.message)}
 							variant="outlined"
 							required
 							fullWidth

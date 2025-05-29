@@ -36,6 +36,7 @@ import { SettingsApi } from "../../SettingsApi";
 import OnionConfirmBox from "app/shared-components/components/OnionConfirmBox";
 import OnionEmailViewer from "app/shared-components/components/OnionEmailViewer";
 import OnionPhoneNumberViewer from "app/shared-components/components/OnionPhoneNumberViewer";
+import { userImageUrl } from "src/utils/urlHelper";
 
 type AdminCardType = {
   user?: User;
@@ -62,8 +63,8 @@ enum UserStatus {
 const schema = z.object({
   password: z
     .string()
-    .nonempty("Please enter your password."),
-    shouldSendEmail: z.boolean()
+    .nonempty("password_required_message"),
+  shouldSendEmail: z.boolean()
 });
 
 const defaultValues = {
@@ -71,15 +72,15 @@ const defaultValues = {
   shouldSendEmail: true
 };
 type FormData = {
-	password: string;
-	shouldSendEmail: boolean
+  password: string;
+  shouldSendEmail: boolean
 };
 const ITEM_HEIGHT: number = 48;
 //--------------------------------------
 
 function UserCard({ user, onUserModify, setReload }: AdminCardType) {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const { t } = useTranslation('adminManagement');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { control, formState, handleSubmit, setValue } = useForm({
@@ -107,8 +108,8 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
     dispatch(openDialog({
       children: (
         <OnionConfirmBox
-          title={`${userStatuses[status].actionLabel} ${t('user')}`}
-          subTitle={ userStatuses[status].confirmLabel}
+          title={`${t(userStatuses[status].actionLabel)} ${t('adminManagement_user')}`}
+          subTitle={t(userStatuses[status].confirmLabel)}
           onCancel={() => dispatch(closeDialog())}
           onConfirm={() => {
             updateStatusAPI(status);
@@ -123,36 +124,36 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
     return {
       Active: {
         label: "Active",
-        actionLabel: "Activate",
+        actionLabel: 'adminManagement_status_activate',
         callback: onChangeStatusConfirmation,
         message: `${t("activatedStatus")}`,
         show: user.status !== "Active" || user.status === "Suspended",
         theme: "bg-[#ccf3ed] text-[#00c3a5]",
         textColor: "text.primary",
-        confirmLabel:  t('adminManagement_ActivateConfirmText')
+        confirmLabel: 'adminManagement_ActivateConfirmText'
       },
       Inactive: {
         label: "Inactive",
-        actionLabel: "Deactivate",
+        actionLabel: 'adminManagement_status_deActivate',
         callback: onChangeStatusConfirmation,
         message: `${t("deActivatedStatus")}`,
         show: user.status !== "Inactive" || user.status === "Suspended",
         theme: "bg-[#ebebeb] text-[#9b9b9b]",
         textColor: "text.disabled",
-        confirmLabel:  t('adminManagement_DeactivateConfirmText')
+        confirmLabel: 'adminManagement_DeactivateConfirmText'
       },
       Suspended: {
         label: "Suspended",
-        actionLabel: "Suspend",
+        actionLabel: 'adminManagement_status_suspend',
         callback: onChangeStatusConfirmation,
         message: `${t("suspendedStatus")}`,
         show: user.status === "Active",
         theme: "bg-[#fee9d6] text-[#f89233]",
-        confirmLabel:  t('adminManagement_SuspendConfirmText')
+        confirmLabel: 'adminManagement_SuspendConfirmText'
       },
       resetPassword: {
         label: "Reset Password",
-        actionLabel: "Reset Password",
+        actionLabel: 'adminManagemet_resetPassword',
         callback: onResetPasswordConfirmation,
         show: user.status === "Active",
         theme: "bg-[#fee9d6] text-[#f89233]",
@@ -164,7 +165,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
 
   useEffect(() => {
     setUserStatuses(renderUserStatuses());
-  }, [user]);
+  }, [user, t]);
 
   const openActionItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -174,7 +175,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
     setAnchorEl(null);
   };
 
-  const resetPasswordAPI = async (id: string, password?: string, shouldSendEmail:boolean) => {
+  const resetPasswordAPI = async (id: string, password?: string, shouldSendEmail: boolean) => {
     await updateDefaultPassword(id, password, shouldSendEmail);
     toggleResetPasswordDialog(false)
     // onUserModify(user);
@@ -206,7 +207,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
       const result = response?.statusCode;
       if (result) {
         dispatch(showMessage({ message: "User deleted", variant: "success" }));
-        setReload((prev)=>!prev)
+        setReload((prev) => !prev)
       }
     } catch (error) {
       const errorMesssage = error?.response?.data?.message;
@@ -241,8 +242,8 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
 
   const copyPasswordAndEmail = (password: string) => {
     const textToCopy = `Email: ${user?.email}\nPassword: ${password}`;
-  
-    
+
+
     navigator.clipboard.writeText(textToCopy).then(
       () => {
         dispatch(
@@ -398,7 +399,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
                         statusObject.callback(statusKey);
                       }}
                     >
-                      {statusObject.actionLabel}
+                      {t(statusObject.actionLabel)}
                     </MenuItem>
                   )
               )}
@@ -408,8 +409,8 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
         <CardContent className="!p-0 mb-0">
           <div className="">
             <Avatar
-              alt={user.profilePic}
-              src={user.profilePic}
+              alt={user?.name.toUpperCase()}
+              src={userImageUrl(user.profilePic)}
               className="mr-10 float-left"
             />
             <div className="flex flex-col">
@@ -427,7 +428,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
                 color="text.disabled"
                 className={`truncate mb-0 text-[13px]`}
               >
-                <OnionEmailViewer email={user?.email}/>
+                <OnionEmailViewer email={user?.email} />
                 {/* {user?.email} */}
               </Typography>
             </div>
@@ -451,8 +452,8 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
               className={`mb-0 flex whitespace-nowrap`}
             >
               {t("phoneNumber")} <span className="mx-4">:</span>  <b className={`truncate block`}>
-                 {user.number ? <OnionPhoneNumberViewer phoneNumber={user.number}/> : "N/A"}
-                  </b>
+                {user.number ? <OnionPhoneNumberViewer phoneNumber={user.number} /> : "N/A"}
+              </b>
             </Typography>
           </div>
 
@@ -466,7 +467,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
                 to={`edit/${user.id}`}
                 className="py-0 !-ms-6 font-semibold"
               >
-                {t("edit")}
+                {t("common_edit")}
               </Button>
               <Button
                 onClick={() => deleteUser(user.id)}
@@ -475,7 +476,7 @@ function UserCard({ user, onUserModify, setReload }: AdminCardType) {
                 startIcon={<FuseSvgIcon size={16}>feather:trash</FuseSvgIcon>}
                 className="py-0 font-semibold"
               >
-                {t("delete")}
+                {t("common_delete")}
               </Button>
             </Stack>
           </div>

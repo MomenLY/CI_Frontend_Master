@@ -3,7 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { rootReducer } from 'app/store/lazyLoadedSlices';
 
 // Define the interface for the state slice
-interface StateSlice {
+export interface StateSlice {
   value: boolean;
 }
 

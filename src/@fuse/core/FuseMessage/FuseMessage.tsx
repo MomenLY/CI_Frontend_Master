@@ -48,7 +48,7 @@ const variantIcon = {
 
 const variantAutoHide = {
 	success: 5000,
-	warning: 8000,
+	warning: 10000,
 	error: 10000,
 	info: 5000
 }
@@ -97,7 +97,7 @@ function FuseMessage() {
 						{variantIcon[options.variant] && (
 							<FuseSvgIcon color="inherit">{variantIcon[options.variant]}</FuseSvgIcon>
 						)}
-						<Typography className="mx-8">{options.message}</Typography>
+						<Typography className="mx-8" dangerouslySetInnerHTML={{ __html: options.message }} />
 					</div>
 				}
 				action={[

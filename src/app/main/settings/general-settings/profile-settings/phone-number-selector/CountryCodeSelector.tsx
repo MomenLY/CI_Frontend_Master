@@ -7,7 +7,9 @@ import Box from '@mui/system/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
-import { getCountriesListAPI } from '../apis/CountryDataList';
+import LocalCache from 'src/utils/localCache';
+import { cacheIndex } from 'app/shared-components/cache/cacheIndex';
+import { getCountries } from 'app/shared-components/cache/cacheCallbacks';
 // import { useGetContactsCountriesQuery } from '../../ContactsApi';
 
 type CountryCodeSelectorProps = {
@@ -16,7 +18,7 @@ type CountryCodeSelectorProps = {
 	className?: string;
 };
 
-const countries = await getCountriesListAPI();
+const countries = await LocalCache.getItem(cacheIndex.countries, getCountries.bind(this));
 
 const CountryCodeSelector = forwardRef((props: CountryCodeSelectorProps, ref: ForwardedRef<HTMLDivElement>) => {
 	const { value, onChange, className } = props;

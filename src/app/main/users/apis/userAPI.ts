@@ -5,6 +5,9 @@ export const getUserDetailsAPI = async ({ pagination, keyword, sorting }) => {
   if (!token) {
     return false;
   }
+
+ 
+  
   const getPayloads = [];
   getPayloads.push(`page=${pagination.pageIndex + 1}`);
   getPayloads.push(`limit=${pagination.pageSize}`);

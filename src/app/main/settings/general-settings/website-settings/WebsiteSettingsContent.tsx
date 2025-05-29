@@ -92,7 +92,7 @@ function WebsiteSettingsContent() {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	const schema = z.object({
-		contactEmail: z.string().email(`${t('youMustEnterAnEmail')}`),
+		contactEmail: z.string().email('youMustEnterAnEmail'),
 		contactNumber: z
 			.string()
 			.regex(/^\d{7,14}$/)
@@ -228,7 +228,7 @@ function WebsiteSettingsContent() {
 								autoFocus
 								type="email"
 								error={!!errors.contactEmail}
-								helperText={errors?.contactEmail?.message}
+								helperText={t(errors?.contactEmail?.message)}
 								variant="outlined"
 								fullWidth
 							/>
@@ -304,7 +304,7 @@ function WebsiteSettingsContent() {
 									autoFocus
 									type="link"
 									error={!!errors.facebookLink}
-									helperText={errors?.facebookLink?.message}
+									helperText={t(errors?.facebookLink?.message)}
 									variant="outlined"
 									fullWidth
 								/>
@@ -347,7 +347,7 @@ function WebsiteSettingsContent() {
 									autoFocus
 									type="link"
 									error={!!errors.instagramLink}
-									helperText={errors?.instagramLink?.message}
+									helperText={t(errors?.instagramLink?.message)}
 									variant="outlined"
 									fullWidth
 								/>
@@ -390,7 +390,7 @@ function WebsiteSettingsContent() {
 									autoFocus
 									type="link"
 									error={!!errors.youtubeLink}
-									helperText={errors?.youtubeLink?.message}
+									helperText={t(errors?.youtubeLink?.message)}
 									variant="outlined"
 									fullWidth
 								/>
@@ -433,7 +433,7 @@ function WebsiteSettingsContent() {
 									autoFocus
 									type="link"
 									error={!!errors.linkedInLink}
-									helperText={errors?.linkedInLink?.message}
+									helperText={t(errors?.linkedInLink?.message)}
 									variant="outlined"
 									fullWidth
 								/>
@@ -449,7 +449,7 @@ function WebsiteSettingsContent() {
 								id="outlined-multiline-static"
 								label={`${t('company')} ${t('address')}`}
 								error={!!errors.contactAddress}
-								helperText={errors?.contactAddress?.message}
+								helperText={t(errors?.contactAddress?.message)}
 								className='!mt-16'
 								multiline
 								rows={6}

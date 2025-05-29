@@ -14,18 +14,18 @@ const PlatformSettingsConfig = [
 		path: 'platform-settings',
 		element: <PlatformSettings />,
 		children: [
-			{
-				path: 'layout-settings',
-				element: <LayoutSettings />
-			},
+			// {
+			// 	path: 'layout-settings',
+			// 	element: <LayoutSettings />
+			// },
 			{
 				path: 'login-signup-settings',
 				element: <LoginSignupSettings />
 			},
-			{
-				path: 'password-settings',
-				element: <PasswordSettings />
-			},
+			// {
+			// 	path: 'password-settings',
+			// 	element: <PasswordSettings />
+			// },
 			{
 				path: 'label-settings',
 				element: <LabelSettings />

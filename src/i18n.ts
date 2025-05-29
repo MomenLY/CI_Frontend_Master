@@ -26,12 +26,12 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
 			escapeValue: false // react already safes from xss
 		},
 
-		fallbackLng: 'en',
+		fallbackLng: 'it',
 		ns: ['default'],
 		defaultNS: 'default',
 		fallbackNS: 'default',
 		react: {
-			useSuspense: false,
+			useSuspense: true,
 			bindI18nStore: 'added'
 		},
 		backend: {
@@ -58,7 +58,6 @@ export const setI18nBackendUrl = async (url: string) => {
 		}
 		const lng = loadedKeys[0];
 		const nsKeys = Object.keys(lastLoaded[lng]);
-		// console.log('lastLoaded', lastLoaded, lng, nsKeys)
 		try {
 			const responseAlt = await getAltLocalesCached(lng);
 			for (const ns of nsKeys) {
@@ -82,7 +81,6 @@ i18n.on('loaded', async (loaded) => {
 	}
 	const lng = loadedKeys[0];
 	const nsKeys = Object.keys(loaded[lng]);
-	// console.log('loaded', loaded, lng, nsKeys)
 	if (!lastLoaded[lng]) {
 		lastLoaded = { [lng]: {} };
 	}

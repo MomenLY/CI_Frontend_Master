@@ -289,7 +289,7 @@ function Error500Page({label}: ErrorProps) {
 				>
 					<Typography
 						variant="h1"
-						className="mt-48 text-center text-4xl font-extrabold leading-tight tracking-tight sm:mt-96 md:text-7xl md:leading-none"
+						className="mt-48 text-center text-4xl font-bold leading-tight tracking-tight sm:mt-96 md:text-7xl md:leading-none"
 					>
 						{label}
 					</Typography>
@@ -309,9 +309,9 @@ function Error500Page({label}: ErrorProps) {
 
 				<Link
 					className="mt-48 block font-normal"
-					to="/"
+					to={label === 'Issue in Validating Email'? '/sign-up': '/'}
 				>
-					Back to Login
+					{label === 'Issue in Validating Email' ? 'Back to SignUp' : 'Back to Login'}
 				</Link>
 			</div>
 		</div>

@@ -1,11 +1,13 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { pageLayout } from 'app/configs/settingsConfig';
 import FuseLoading from '@fuse/core/FuseLoading';
 import { SettingsApi } from '../sign-up/apis/Settings-Api';
 import Error404Page from '../404/Error404Page';
+import { pageLayout } from 'app/configs/settingsConfig';
 
 // Lazy-loaded components
-const ClassicSignIn = React.lazy(() => import('./signin-layout/ClassicSignIn'));
+// const ClassicSignIn = React.lazy(() => import('./signin-layout/ClassicSignIn'));
+import ClassicSignIn from './signin-layout/ClassicSignIn';
+
 const ModernSignIn = React.lazy(() => import('./signin-layout/ModernSignIn'));
 const ModernReversedSignIn = React.lazy(() => import('./signin-layout/ModernReversedSignIn'));
 const FullScreenSignIn = React.lazy(() => import('./signin-layout/FullScreenSignIn'));
@@ -48,18 +50,20 @@ function SignInPage() {
 
 	useEffect(() => {
 		const getPermissionData = async () => {
-			try {
-				const permissionData = await SettingsApi({ settingsKey: 'signin_signup' });
+			if (SelectedSignInComponent) {
+				try {
+					const permissionData = await SettingsApi({ settingsKey: 'signin_signup' });
 
-				if (permissionData) {
-					setLoaded(true);
-					setPermission(permissionData);
-					setLoginEnabled(permissionData?.isLoginEnabled === 'true');
+					if (permissionData) {
+						setLoaded(true);
+						setPermission(permissionData);
+						setLoginEnabled(permissionData?.isLoginEnabled === 'true');
+					}
+				} catch (error) {
+					setLoginEnabled(true);
 				}
-			} catch (error) {
-				setLoginEnabled(true);
-			}
-		};
+			};
+		}
 		getPermissionData();
 	}, []);
 

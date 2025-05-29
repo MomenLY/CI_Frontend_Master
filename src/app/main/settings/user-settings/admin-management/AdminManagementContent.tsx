@@ -10,8 +10,10 @@ import { setShouldUpdate } from "src/app/auth/user/store/adminSlice";
 import { useLocation, useNavigate } from "react-router";
 import LocalCache from "src/utils/localCache";
 import { cacheIndex } from "app/shared-components/cache/cacheIndex";
-import { getRoles } from "app/shared-components/cache/cacheCallbacks";
+import { getRoles, getUserSession } from "app/shared-components/cache/cacheCallbacks";
 import * as _ from "lodash";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   keyword?: string;
@@ -20,12 +22,14 @@ type Props = {
 function AdminManagementContent({ keyword }: Props) {
   const [admins, setAdmins] = useState({});
   const [roles, setRoles] = useState({});
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState<boolean>(true);
   const [reload, setReload] = useState<boolean>(false);
   const dispatch = useDispatch();
   const shouldUpdate = useSelector((state) => state.userList.shouldUpdate);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation('adminManagement');
 
   const [page, setPage] = useState(1);
   const [hasMoreAdmins, setHasMoreAdmins] = useState(true);
@@ -33,6 +37,13 @@ function AdminManagementContent({ keyword }: Props) {
   const lastAdminItemRef = useRef(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const userData = await LocalCache.getItem(cacheIndex.userData, getUserSession.bind(this));
+      if(userData){
+        setEmail(userData?.data?.email);
+      }
+    };
+
     const _init = async () => {
       const _roles = await LocalCache.getItem(cacheIndex.roles, getRoles.bind(null));
       const _roleObj = _roles.reduce((_prevRoles, role) => {
@@ -41,6 +52,7 @@ function AdminManagementContent({ keyword }: Props) {
       }, {});
       setRoles(_roleObj ? _roleObj : {});
     };
+    fetchData();
     _init();
   }, []);
 
@@ -49,8 +61,10 @@ function AdminManagementContent({ keyword }: Props) {
       setIsFetching(true);
       try {
         const response = await getAdmins(keyword, page);
-        const newAdmins = response?.data?.items || [];
+        // removable code from here
+        let newAdmins = response?.data?.items || [];
 
+        // upto
         setAdmins((prevAdmins) => {
           const updatedAdmins = { ...prevAdmins };
           newAdmins.forEach((admin) => {
@@ -139,13 +153,13 @@ function AdminManagementContent({ keyword }: Props) {
     return roleAttributes;
   };
 
-  let count = Object.keys(admins).length;  
+  let count = Object.keys(admins).length;
   if (isFetching && count === 0) {
     return <FuseLoading />;
   }
 
   if (count === 0) {
-    return <OnionNotFound />;
+    return <OnionNotFound message='No User Found' />;
   }
 
   return (
@@ -153,29 +167,31 @@ function AdminManagementContent({ keyword }: Props) {
       <motion.div
         initial="hidden"
         animate="show"
-        className="grid sm:grid-cols-2 gap-6 sm:gap-10 md:grid-cols-3 md:gap-14 lg:grid-cols-3 lg:gap-20 xl:grid-cols-4"
+        className="sm:grid sm:grid-cols-2 gap-6 sm:gap-10 md:grid-cols-3 md:gap-14 lg:grid-cols-3 lg:gap-20 xl:grid-cols-4"
       >
-        {Object.entries(admins).map(([key, admin]: [string, any], index) => (
-          <div
-            key={admin._id}
-            ref={index === Object.keys(admins).length - 1 ? lastAdminItemRef : null}
-          >
-            <UserCard
-              user={{
-                id: admin._id,
-                name: admin.firstName + " " + admin.lastName,
-                email: admin.email,
-                roles: getRoleAttribute(admin.roleIds, "name").join(","),
-                number: admin.phoneNumber,
-                status: admin.status,
-                profilePic:
-                  "https://react-material.fusetheme.com/assets/images/avatars/brian-hughes.jpg",
-              }}
-              onUserModify={handleAdminModify}
-              setReload={setReload}
-            />
-          </div>
-        ))}
+        {Object.entries(admins)
+          .filter(([_, admin]: [string, any]) => admin.email !== email)
+          .map(([key, admin]: [string, any], index) => (
+            <div
+              key={admin._id}
+              ref={index === Object.keys(admins).length - 1 ? lastAdminItemRef : null}
+            >
+              <UserCard
+                user={{
+                  id: admin._id,
+                  name: admin.firstName + " " + admin.lastName,
+                  email: admin.email,
+                  roles: getRoleAttribute(admin.roleIds, "name").join(","),
+                  number: admin.phoneNumber,
+                  status: admin.status,
+                  profilePic: admin?.userImage,
+                }}
+                onUserModify={handleAdminModify}
+                setReload={setReload}
+              />
+            </div>
+          ))}
+
       </motion.div>
       {isFetching && hasMoreAdmins && (
         <div className="w-full flex justify-center mt-4">

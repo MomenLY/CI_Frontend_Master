@@ -1,0 +1,10 @@
+{
+    "favContacts_heading": "Contatti Preferiti",
+    "favContact_unfavoriteUser_confirmation": "Sì, Rimuovi",
+    "favContact_unFavoriteUser_confirmTitle": "Rimuovi Utente Preferito",
+    "favContact_unFavoriteUser_confirmMessage": "Sei sicuro di voler rimuovere questo utente dalla tua lista contatti preferiti?",
+    "favContacts_unfavoriteUser_errorMessage": "Errore nella rimozione dell'utente dalla lista dei preferiti",
+    "favContacts_unfavoriteUser_genericError": "Si è verificato un errore mentre cercavi di rimuovere questo utente dai tuoi preferiti. Riprova più tardi.",
+    "favoriteContacts_notfound_message": "Nessun contatto preferito trovato"
+  }
+  

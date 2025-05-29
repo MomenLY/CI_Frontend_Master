@@ -68,7 +68,7 @@ type FormData = {
 
 type FieldFormProps = {
 	endPoint: string;
-	exitEndpoint: string;
+	exitEndpoint: string | number;
 	type: string;
 	onSubmitComplete?: (response: boolean) => void;
 };
@@ -81,13 +81,38 @@ function OnionCustomFieldForm({ endPoint, exitEndpoint, type, onSubmitComplete }
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const schema = z.object({
-		pFLabel: z.string().nonempty(t('dynamicFieldForm_fieldLabel_errorMessage')).max(20, (t('dynamicFieldForm_placeholder_warning'))),
+		pFLabel: z.string()
+			.min(1, t('dynamicFieldForm_fieldLabel_errorMessage'))
+			.max(30, (t('dynamicFieldForm_label_warning')))
+			.refine(value => !/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value), t('dynamicFieldForm_fieldLabelEmailInvalidMessage'))
+			.refine(value => !/^(ftp|http|https):\/\/[^ "]+$/.test(value), t('dynamicFieldForm_fieldLabelUrlInvalidMessage'))
+			.refine(value => !/^\s/.test(value), t('dynamicFieldForm_fieldLabelLeadingSpaceMessage'))
+			.refine(value => value.trim().length > 0, t('dynamicFieldForm_fieldLabelSpacesOnlyMessage'))
+			.refine(value => /^[a-zA-Z0-9 ]+$/.test(value), t('dynamicFieldForm_fieldLabelSpecialCharsMessage')),
 		pFType: z.string().nonempty(t('dynamicFieldForm_fieldLabel_errorMessage')),
-		pFPlaceholder: z.string().max(20, (t('dynamicFieldForm_placeholder_warning'))).optional(),
-		pFHelperText: z.string().optional(),
+		pFPlaceholder: z.string()
+			.max(30, (t('dynamicFieldForm_placeholder_warning')))
+			.refine(value => !/^\s/.test(value), t('dynamicFieldForm_fieldPlaceholder_LeadingSpaceMessage'))
+			.nullable(),
+		pFHelperText: z.string()
+			.refine(value => !/^\s/.test(value), t('dynamicFieldForm_fieldHelperTxt_LeadingSpaceMessage'))
+			.nullable(),
 		pFValidation_type: z.string().optional(),
-		pFData: z.string().optional(),
-		pFValidation_errorMessage: z.string().optional(),
+		pFData: z.string()
+			.refine((value) => {
+				const hasLeadingSpace = /^\s/.test(value);
+				const startsWithComma = /^,/.test(value);
+				const hasSpaceBetweenCommas = /,\s| ,/g.test(value);
+				const hasEmptyValues = /,,/.test(value);
+
+				return !hasLeadingSpace && !hasSpaceBetweenCommas && !hasEmptyValues && !startsWithComma;
+			}, {
+				message: t('dynamicFieldForm_field_LeadingSpaceMessage'),
+			})
+			.nullable(),
+		pFValidation_errorMessage: z.string()
+			.refine(value => !/^\s/.test(value), t('dynamicFieldForm_fieldErrorTxt_LeadingSpaceMessage'))
+			.nullable(),
 		pFRequired: z.boolean(),
 		pFStatus: z.boolean(),
 		pFMultiFileParams: z.boolean(),
@@ -211,7 +236,7 @@ function OnionCustomFieldForm({ endPoint, exitEndpoint, type, onSubmitComplete }
 			dataForAPI["pFData"] = pFData;
 		}
 
-		if (data.pFType === 'date' || data.pFType === 'datetime'){
+		if (data.pFType === 'date' || data.pFType === 'datetime') {
 			dataForAPI["pFData"] = pFDateTimeData;
 		}
 
@@ -224,7 +249,7 @@ function OnionCustomFieldForm({ endPoint, exitEndpoint, type, onSubmitComplete }
 
 			if (fieldData?.statusCode === 201) {
 				dispatch(showMessage({ message: t('dynamicFieldForm_fieldAdded_confirmMessage'), variant: 'success' }));
-				navigate('/admin/settings/user-settings/profile-field-settings');
+				navigate(-1);
 				setIsLoading(false);
 				onSubmitComplete(true)
 			} else {
@@ -250,7 +275,7 @@ function OnionCustomFieldForm({ endPoint, exitEndpoint, type, onSubmitComplete }
 			return false;
 		}
 
-		if(pFLabel.length > 20){
+		if (pFLabel.length > 20) {
 			return false;
 		}
 
@@ -283,7 +308,7 @@ function OnionCustomFieldForm({ endPoint, exitEndpoint, type, onSubmitComplete }
 			title={t('dynamicFieldForm_title')}
 			subTitle={t('dynamicFieldForm_title_message')}
 			footer={true}
-			footerButtonLabel={t('save')}
+			footerButtonLabel={t('common_save')}
 			footerButtonClick={handleSubmit(onSubmit)}
 			footerButtonDisabled={!shouldEnableSaveButton() || isLoading}
 			isFooterButtonLoading={isLoading}

@@ -737,7 +737,7 @@ module.exports = {
 			medium: '500',
 			semibold: '600',
 			bold: '700',
-			extrabold: '800',
+			bold: '800',
 			black: '900',
 			100: '100',
 			200: '200',

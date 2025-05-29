@@ -28,12 +28,24 @@ export default defineConfig({
 	],
 	build: {
 		outDir: 'build',
+		rollupOptions: {
+			onwarn(warning, warn) {
+				// skip certain warnings
+				if (warning.code === 'UNSUPPORTED_CSS_PROPERTY') return;
+				// Use default for everything else
+				warn(warning);
+			}
+		},
+		target: 'esnext', // or specify the browsers you are targeting
+	},
+	esbuild: {
+		target: 'esnext', // Ensure esbuild targets an environment that supports top-level await
 	},
 	server: {
 		open: true,
 		port: 3000
 	},
-	define:{
+	define: {
 		global: 'window',
 	},
 	resolve: {
@@ -52,7 +64,7 @@ export default defineConfig({
 		},
 	},
 	"optimizeDeps": {
-		"include": ['@mui/icons-material','@mui/material','@mui/base','@mui/styles','@mui/system','@mui/utils','@emotion/cache','@emotion/react','@emotion/styled','lodash'],
+		"include": ['@mui/icons-material', '@mui/material', '@mui/base', '@mui/styles', '@mui/system', '@mui/utils', '@emotion/cache', '@emotion/react', '@emotion/styled', 'lodash'],
 		"exclude": [],
 		"esbuildOptions": {
 			"loader": {

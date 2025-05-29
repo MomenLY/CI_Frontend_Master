@@ -1,0 +1,12 @@
+[ {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.Congressi.Internazionali",
+      "sha256_cert_fingerprints": [
+        "B9:4E:6F:A1:FF:6E:C1:D9:D8:4F:15:3D:7D:C5:92:51:00:2B:66:CE:57:83:01:49:65:4C:02:53:74:9C:D6:81"
+      ]
+    }
+  }]

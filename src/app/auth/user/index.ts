@@ -14,7 +14,8 @@ export type User = {
 		email?: string;
 		shortcuts?: string[];
 		settings?: Partial<FuseSettingsConfigType>;
-		loginRedirectUrl?: string; // The URL to redirect to after login.
+		loginRedirectUrl?: string; // The URL to redirect to after login.,
+		userImage?: string;
 	};
 	user: {
 		firstName?: string;

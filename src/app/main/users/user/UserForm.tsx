@@ -21,7 +21,6 @@ import { cacheIndex } from 'app/shared-components/cache/cacheIndex';
 import { getRoles } from 'app/shared-components/cache/cacheCallbacks';
 import OnionSelector from 'app/shared-components/components/OnionSelector';
 
-
 const defaultValues = {
 	firstName: '',
 	lastName: '',
@@ -39,14 +38,14 @@ type FormData = {
 };
 
 const schema = z.object({
-	firstName: z.string().nonempty('You must enter your name.'),
-	lastName: z.string().nonempty('You must enter your name.'),
-	email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
+	firstName: z.string().nonempty('firstNameRequiredMessage'),
+	lastName: z.string().nonempty('lastNameRequiredMessage'),
+	email: z.string().email('validEmailMessage').nonempty('emailRequiredMessage'),
 	password: z
 		.string()
-		.nonempty('Please enter your password.'),
+		.nonempty('passwordRequiredMessage'),
 	// .min(8, 'Password is too short - should be 8 chars minimum.'),
-	role: z.array(z.string()).nonempty('You must enter a role.')
+	role: z.array(z.string()).nonempty('roleRequiredMessage')
 });
 
 function UserForm() {
@@ -90,7 +89,6 @@ function UserForm() {
 		try {
 			const response = await AddUserAPI({ data });
 			const result = response?.data;
-
 			if (result) {
 				handleUpdate();
 				dispatchRefresh(setState(!state));
@@ -138,7 +136,7 @@ function UserForm() {
 							autoFocus
 							type="firstName"
 							error={!!errors.firstName}
-							helperText={errors?.firstName?.message}
+							helperText={t(errors?.firstName?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -154,7 +152,7 @@ function UserForm() {
 							autoFocus
 							type="lastName"
 							error={!!errors.lastName}
-							helperText={errors?.lastName?.message}
+							helperText={t(errors?.lastName?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -170,7 +168,7 @@ function UserForm() {
 							autoFocus
 							type="email"
 							error={!!errors.email}
-							helperText={errors?.email?.message}
+							helperText={t(errors?.email?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -186,7 +184,7 @@ function UserForm() {
 							autoFocus
 							type="text"
 							error={!!errors.password}
-							helperText={errors?.password?.message}
+							helperText={t(errors?.password?.message)}
 							variant="outlined"
 							fullWidth
 						/>

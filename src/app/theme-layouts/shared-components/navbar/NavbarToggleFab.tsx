@@ -79,7 +79,7 @@ function NavbarToggleFab(props: NavbarToggleFabProps) {
 					color="action"
 					className="button-icon"
 				>
-					heroicons-outline:view-list
+					material-outline:dehaze
 				</FuseSvgIcon>
 			</Fab>
 		</Root>

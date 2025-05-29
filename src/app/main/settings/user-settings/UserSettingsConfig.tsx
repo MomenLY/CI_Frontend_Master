@@ -19,16 +19,16 @@ const UserSettingsConfig = [
 		path: 'user-settings',
 		element: <UserSettings />,
 		children: [
-			{
-				path: 'profile-field-settings',
-				element: <ProfileFieldSettings />,
-				children: [
-					{
-						path: ':id',
-						element: <AddFieldForm />
-					}
-				]
-			},
+			// {
+			// 	path: 'profile-field-settings',
+			// 	element: <ProfileFieldSettings />,
+			// 	children: [
+			// 		{
+			// 			path: ':id',
+			// 			element: <AddFieldForm />
+			// 		}
+			// 	]
+			// },
 			{
 				path: 'role-management',
 				element: <RoleManagement />,

@@ -14,13 +14,13 @@ type Props = {
 /**
  * The modern layout page.
  */
-function ModernLayout({children}:Props) {
+function ModernLayout({ children }: Props) {
 
     return (
         <div className="flex min-w-0 flex-auto flex-col items-center sm:justify-center md:p-32">
             <Paper className="flex min-h-full w-full overflow-hidden rounded-0 sm:min-h-auto sm:w-auto sm:rounded-2xl sm:shadow md:w-full md:max-w-6xl">
                 <div className="w-full px-16 py-32 ltr:border-l-1 rtl:border-r-1 sm:w-auto sm:p-48 md:p-64">
-                  {children}
+                    {children}
                 </div>
                 <Box
                     className="relative hidden h-full flex-auto items-center justify-center overflow-hidden p-64 md:flex lg:px-112"
@@ -91,29 +91,10 @@ function ModernLayout({children}:Props) {
                     <div className="relative z-10 w-full max-w-2xl">
                         <div className="text-7xl font-bold leading-none text-gray-100">
                             <div>Welcome to</div>
-                            <div>our community</div>
+                            <div>Congressi Internazionali</div>
                         </div>
                         <div className="mt-24 text-lg leading-6 tracking-tight text-gray-400">
-                            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-                            rich modules. Join us and start building your application today.
-                        </div>
-                        <div className="mt-32 flex items-center">
-                            <AvatarGroup
-                                sx={{
-                                    '& .MuiAvatar-root': {
-                                        borderColor: 'primary.main'
-                                    }
-                                }}
-                            >
-                                <Avatar src="assets/images/avatars/female-18.jpg" />
-                                <Avatar src="assets/images/avatars/female-11.jpg" />
-                                <Avatar src="assets/images/avatars/male-09.jpg" />
-                                <Avatar src="assets/images/avatars/male-16.jpg" />
-                            </AvatarGroup>
-
-                            <div className="ml-16 font-medium tracking-tight text-gray-400">
-                                More than 17k people joined us, it's your turn
-                            </div>
+                            Our Guarantees · Translation and interpreting agency with the highest growth rate in Italy in 2022
                         </div>
                     </div>
                 </Box>

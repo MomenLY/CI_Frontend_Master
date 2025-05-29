@@ -1,10 +1,5 @@
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import {
-	IconButton,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-} from '@mui/material';
+import { IconButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -12,7 +7,6 @@ import { useAppDispatch } from 'app/store/hooks';
 import { closeDialog, openDialog } from '@fuse/core/FuseDialog/fuseDialogSlice';
 import { useTranslation } from 'react-i18next';
 import { showMessage } from '@fuse/core/FuseMessage/fuseMessageSlice';
-import { useParams } from 'react-router';
 import LoaderModal from '../modal/LoaderModel';
 import { UpdateSortAPI } from './apis/Update-Sort-Api';
 import { UpdateStatusAPI } from './apis/Update-Status-Api';
@@ -23,11 +17,10 @@ import { OnionSwitch } from '../components/OnionSwitch';
 
 enum ButtonState {
 	Enabled = 0,
-	Disabled = 1,
+	Disabled = 1
 }
 
 type DragDropType = {
-	endPoint: string;
 	loader?: boolean;
 	loaderContent?: string;
 	enableEdit?: boolean;
@@ -39,7 +32,6 @@ type DragDropType = {
 };
 
 function OnionCustomFields({
-	endPoint,
 	loader,
 	loaderContent,
 	onEditClick,
@@ -56,16 +48,18 @@ function OnionCustomFields({
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
-			getFieldData();
+		getFieldData();
 	}, [refresh]);
 
 	const getFieldData = async () => {
 		setIsLoading((prev) => !prev);
 		try {
-			const fieldData = await GetFieldsAPI({ data: endPoint , type});
+			const fieldData = await GetFieldsAPI({ data: 'profile-fields', type });
+
+			const sortedItems = fieldData?.data?.data.sort((a: any, b: any) => a.pFOrder - b.pFOrder);
 
 			if (fieldData) {
-				setItems(fieldData?.data || []);
+				setItems(sortedItems || []);
 				setIsLoading((prev) => !prev);
 			}
 		} catch (e) {
@@ -77,7 +71,7 @@ function OnionCustomFields({
 	const updateSorting = async (data: any) => {
 		setIsLoading((prev) => !prev);
 		try {
-			const _updateSorting = await UpdateSortAPI({ endPoint, data });
+			const _updateSorting = await UpdateSortAPI({ endPoint: 'profile-fields', data });
 
 			if (_updateSorting.statusCode === 200) {
 				dispatch(showMessage({ message: `${t('orderUpdated')}`, variant: 'success' }));
@@ -91,7 +85,9 @@ function OnionCustomFields({
 		}
 	};
 
-	const onDragEnd = (result) => {
+	const onDragEnd = (result: any) => {
+		if (items.length <= 1) return;
+
 		if (!result.destination) {
 			return;
 		}
@@ -101,7 +97,10 @@ function OnionCustomFields({
 		newItems.splice(result.destination.index, 0, movedItem);
 
 		// Update pFOrder based on new position
-		const updatedItems = newItems.map((item, index) => ({ ...item, pFOrder: index }));
+		const updatedItems = newItems.map((item, index) => ({
+			...item,
+			pFOrder: index
+		}));
 
 		setItems(updatedItems);
 		updateSorting(updatedItems);
@@ -112,7 +111,7 @@ function OnionCustomFields({
 		const data = {
 			id,
 			status: newStatus,
-			endPoint
+			endPoint: 'profile-fields'
 		};
 		setIsLoading((prev) => !prev);
 		try {
@@ -134,14 +133,19 @@ function OnionCustomFields({
 		const data = id;
 		setIsLoading((prev) => !prev);
 		try {
-			const deleteResult = await DeleteFieldAPI({ data, endPoint });
+			const deleteResult = await DeleteFieldAPI({ data, endPoint: 'profile-fields' });
 
 			if (deleteResult.statusCode === 200) {
 				dispatch(showMessage({ message: `${t('fieldDeleted')}`, variant: 'success' }));
 				getFieldData();
 				setIsLoading((prev) => !prev);
 			} else {
-				dispatch(showMessage({ message: `${t('somethingWentWrong')}`, variant: 'error' }));
+				dispatch(
+					showMessage({
+						message: `${t('somethingWentWrong')}`,
+						variant: 'error'
+					})
+				);
 				setIsLoading((prev) => !prev);
 			}
 		} catch (error) {
@@ -190,7 +194,10 @@ function OnionCustomFields({
 													</FuseSvgIcon>
 												</div>
 												<ListItemText
-													classes={{ root: 'm-0 w-32 max-w-32', primary: 'truncate' }}
+													classes={{
+														root: 'm-0 w-32 max-w-32',
+														primary: 'truncate'
+													}}
 													primary={index + 1}
 												/>
 												<ListItemText
@@ -198,8 +205,7 @@ function OnionCustomFields({
 													primary={item.pFLabel}
 												/>
 												{enableStatusSwitch && (
-													<ListItemIcon
-														className="me-10">
+													<ListItemIcon className="me-10">
 														<OnionSwitch
 															disabled={item.pFDefault !== ButtonState.Enabled}
 															checked={item.pFStatus === 1}
@@ -212,9 +218,7 @@ function OnionCustomFields({
 														style={{ minWidth: '25px' }}
 														className="me-10 cursor-pointer"
 													>
-														<IconButton
-															disabled={item.pFDefault !== ButtonState.Enabled}
-														>
+														<IconButton disabled={item.pFDefault !== ButtonState.Enabled}>
 															<FuseSvgIcon
 																sx={{ color: 'text.disabled' }}
 																size={20}
@@ -226,23 +230,27 @@ function OnionCustomFields({
 													</ListItemIcon>
 												)}
 												{enableDelete && (
-													<ListItemIcon
-														style={{ minWidth: '25px' }}>
-														<IconButton
-															disabled={item.pFDefault !== ButtonState.Enabled}
-														>
+													<ListItemIcon style={{ minWidth: '25px' }}>
+														<IconButton disabled={item.pFDefault !== ButtonState.Enabled}>
 															<FuseSvgIcon
-																sx={{ color: `${(item.pFDefault !== ButtonState.Enabled) ? 'text.disable' : 'text.primary'}` }}
+																sx={{
+																	color: `${item.pFDefault !== ButtonState.Enabled ? 'text.disable' : 'error.main'}`
+																}}
 																size={20}
-																className='cursor-pointer'
+																className="cursor-pointer"
 																onClick={() =>
 																	dispatch(
 																		openDialog({
 																			children: (
 																				<OnionConfirmBox
+																					variant="warning"
 																					title={t('confirmDelete')}
-																					subTitle={t('onionCustomField_deleteConfirmContent')}
-																					onCancel={() => dispatch(closeDialog())}
+																					subTitle={t(
+																						'onionCustomField_deleteConfirmContent'
+																					)}
+																					onCancel={() =>
+																						dispatch(closeDialog())
+																					}
 																					onConfirm={() => {
 																						onDelete(item._id);
 																						dispatch(closeDialog());

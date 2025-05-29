@@ -15,7 +15,7 @@ const SettingsConfig = {
          element: <SettingsPageLayout />,
          children: [
             ...GeneralSettingsConfig,
-            ...PlatformSettingsConfig,
+            // ...PlatformSettingsConfig,
             ...UserSettingsConfig
             // ...ManageSett
          ]

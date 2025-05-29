@@ -25,9 +25,19 @@
     "dynamicFieldForm_multipleFile_message": "Toggle to allow multiple file uploads. When disabled, only one file can be uploaded",
     "dynamicFieldForm_multipleFileUpload": "Multiple Files Upload",
     "dynamicFieldForm_dateType": "Date Type",
-    "dynamicFieldForm_placeholder_warning": "Label Must Be MaxLenght 20",
+    "dynamicFieldForm_placeholder_warning": "Placeholder Must Be MaxLenght 30",
+    "dynamicFieldForm_label_warning": "Field label Must Be MaxLenght 30",
     "dynamicFieldForm_fieldAdded_confirmMessage": "New Field Added",
     "dynamicFieldForm_regex/Pattern_errorMessage": "Invalid regex expression",
     "dynamicFieldForm_fileSize_errorMessage": "Size Must Be Greater Than 0",
-    "dynamicFieldForm_fieldLabel_errorMessage": "Field Label is required"
+    "dynamicFieldForm_fieldLabel_errorMessage": "Field Label is required",
+    "dynamicFieldForm_fieldLabelEmailInvalidMessage": "Field Label cannot be an email address",
+    "dynamicFieldForm_fieldLabelUrlInvalidMessage": "Field Label cannot be an URL",
+    "dynamicFieldForm_fieldLabelLeadingSpaceMessage": "Field Label cannot start with a space",
+    "dynamicFieldForm_fieldLabelSpacesOnlyMessage": "Field Label a valid label name; it cannot be composed only of spaces",
+    "dynamicFieldForm_fieldPlaceholder_LeadingSpaceMessage": "Placeholder cannot start with a space",
+    "dynamicFieldForm_fieldHelperTxt_LeadingSpaceMessage": "Helper text cannot start with a space",
+    "dynamicFieldForm_fieldErrorTxt_LeadingSpaceMessage": "Error text cannot start with a space",
+    "dynamicFieldForm_field_LeadingSpaceMessage": "Cannot start with comma, have leading spaces, spaces between commas, or empty values",
+    "dynamicFieldForm_fieldLabelSpecialCharsMessage": "Only letters, numbers, and spaces are allowed."
 }

@@ -54,7 +54,7 @@ function FuseNavVerticalGroup(props: FuseNavItemComponentProps) {
 				<Root
 					component={component}
 					itempadding={itempadding}
-					className={clsx('fuse-list-subheader flex items-center  py-12 mt-20' , !item.url ? 'cursor-default' : '')}
+					className={clsx('fuse-list-subheader flex items-center  px-12 py-10 mb-6 mt-0' , !item.url ? 'cursor-default' : '')}
 					onClick={() => onItemClick && onItemClick(item)}
 					sx={item.sx}
 					{...itemProps}

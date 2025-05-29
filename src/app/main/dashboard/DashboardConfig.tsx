@@ -8,7 +8,7 @@ const DashboardConfig = {
 	settings: {
 		layout: {}
 	},
-	// auth: ['admin'],
+	auth: ['admin'],
 	routes: [
 		{
 			path: 'admin/dashboard',

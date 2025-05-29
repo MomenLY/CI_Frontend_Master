@@ -7,7 +7,7 @@ import { memo, ReactNode, Suspense, useContext } from 'react';
 import { useRoutes } from 'react-router-dom';
 import AppContext from 'app/AppContext';
 import { selectFuseCurrentLayoutConfig } from '@fuse/core/FuseSettings/fuseSettingsSlice';
-import Configurator from 'app/theme-layouts/shared-components/configurator/Configurator';
+// import Configurator from 'app/theme-layouts/shared-components/configurator/Configurator';
 import { useAppSelector } from 'app/store/hooks';
 import FooterLayout3 from './components/FooterLayout3';
 import LeftSideLayout3 from './components/LeftSideLayout3';
@@ -76,9 +76,9 @@ function Layout3(props: Layout3Props) {
 						/>
 					)}
 
-					<div className="sticky top-0 z-99">
+					{/* <div className="sticky top-0 z-99">
 						<Configurator />
-					</div>
+					</div> */}
 
 					<div className="relative z-10 flex min-h-0 flex-auto flex-col">
 						<FuseSuspense>{useRoutes(routes)}</FuseSuspense>

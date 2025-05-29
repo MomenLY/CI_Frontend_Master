@@ -6,4 +6,10 @@ export const cacheIndex = {
     dataTableLocalConfigForRole: "dataTableLocalConfigForRole",
     userData: "userData",
     userRoleId: "userRoleId",
+    expoDetails: "expoDetails",
+    hallList:"hallList",
+    countries: "countries",
+    language: "language",
+    userProfile: "userProfile",
+    expos:"expos"
 }

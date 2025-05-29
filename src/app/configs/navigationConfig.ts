@@ -1,4 +1,5 @@
 import { FuseNavItemType } from "@fuse/core/FuseNavigation/types/FuseNavItemType";
+import { useTranslation } from "react-i18next";
 
 /**
  * The navigationConfig object is an array of navigation items for the Fuse application.
@@ -14,34 +15,18 @@ const navigationConfig: FuseNavItemType[] = [
   },
   {
     id: "expo-management",
-    title: "Expo Managment",
-    translate: "Expo Managment",
+    title: "Expo Management",
+    translate: "ExpoManagement",
     type: "item",
-    icon: "material-outline:email",
-    url: "expo-management",
-  },
-  {
-    id: "users",
-    title: "Users",
-    translate: "Users",
-    type: "item",
-    icon: "material-outline:contacts",
-    url: "admin/users",
-  },
-  {
-    id: "speaker",
-    title: "Speaker",
-    translate: "Speaker",
-    type: "item",
-    icon: "material-outline:contacts",
-    url: "admin/accounts",
+    icon: 'material-outline:festival',
+    url: "admin/expo-management",
   },
   {
     id: "settings",
     title: "Settings",
     translate: "Settings",
     type: "item",
-    icon: "material-outline:settings",
+    icon: 'material-outline:settings',
     url: "admin/settings",
   },
 ];

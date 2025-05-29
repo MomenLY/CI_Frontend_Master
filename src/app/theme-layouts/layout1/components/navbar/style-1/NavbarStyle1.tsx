@@ -8,7 +8,7 @@ import { Layout1ConfigDefaultsType } from 'app/theme-layouts/layout1/Layout1Conf
 import { navbarCloseMobile, selectFuseNavbar } from 'app/theme-layouts/shared-components/navbar/navbarSlice';
 import NavbarStyle1Content from './NavbarStyle1Content';
 
-const navbarWidth = 280;
+const navbarWidth = 266;
 
 type StyledNavBarProps = {
 	theme?: Theme;

@@ -2,6 +2,25 @@ import themesConfig from 'app/configs/themesConfig';
 
 const themeOptions = [
 	{
+		id: 'Custom ',
+		section: {
+			main: themesConfig.custom,
+			navbar: themesConfig.customDark,
+			toolbar: themesConfig.custom,
+			footer: themesConfig.customDark
+		}
+	},
+
+	{
+		id: 'Custom Dark',
+		section: {
+			main: themesConfig.customDark,
+			navbar: themesConfig.customDark,
+			toolbar: themesConfig.customDark,
+			footer: themesConfig.customDark
+		}
+	},
+	{
 		id: 'Default ',
 		section: {
 			main: themesConfig.default,

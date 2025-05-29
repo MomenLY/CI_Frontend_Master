@@ -60,9 +60,59 @@ export const getUserSession = async () => {
       method: "get",
       ... ((roleId !== null) ? { params: { roleId: roleId } } : {})
     });
-    return response?.data?.data?.users;
+    let _return = response?.data?.data?.users;
+    // _return['roleId'] = roleId;
+    return _return;
+  } catch (error) {
+    return error;
+  }
+}
+
+export const getCountries = async () => {
+  try {
+    const response = await axios.request({
+      url: window.location.origin + `/assets/countries.json`,
+      method: 'get'
+    });
+    return response?.data?.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+
+export const getLocales = async (backendBaseUrl: string, lng: string, ns: string) => {
+  try {
+    const url = new URL(`/locales/${ns}/${lng}.json`, backendBaseUrl || window.location.origin).toString();
+    return await fetch(url).then(res => res.json());
   } catch (error) {
     throw error;
   }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const response = await axios.request({
+      url: `/users/profile`,
+      method: "get",
+    });
+    return response?.data;
+  } catch (error) {
+    return error;
+  }
 }
+
+
+export const getSingleExpoAPI = async (id) => {
+  try {
+    const response = await axios.request({
+      url: `/expo/${id}`,
+      method: 'get'
+    });
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
 

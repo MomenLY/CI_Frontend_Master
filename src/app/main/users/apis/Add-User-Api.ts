@@ -6,14 +6,7 @@ export const AddUserAPI = ({ data }) => {
 	return axios.request({
 		url: `/users`,
 		method: 'post',
-		data: {
-			firstName,
-			lastName,
-			email,
-			password,
-			roleIds: role,
-			shouldSendEmail
-		}
+		data: data
 	});
 };
 

@@ -1,9 +1,9 @@
 import { useTimeout } from '@fuse/hooks';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-
+import { useTranslation } from 'react-i18next';
 export type FuseLoadingProps = {
 	delay?: number;
 	className?: string;
@@ -15,6 +15,7 @@ export type FuseLoadingProps = {
 function FuseLoading(props: FuseLoadingProps) {
 	const { delay = 0, className } = props;
 	const [showLoading, setShowLoading] = useState(!delay);
+	const { t } = useTranslation("default");
 
 	useTimeout(() => {
 		setShowLoading(true);
@@ -32,7 +33,7 @@ function FuseLoading(props: FuseLoadingProps) {
 				className="-mb-16 text-13 font-medium sm:text-20"
 				color="text.secondary"
 			>
-				Loading
+				{t('loading')}
 			</Typography>
 			<Box
 				id="spinner"

@@ -17,10 +17,10 @@
 .env.test.local
 .env.production.local
 .eslintcache
-
+.env
 /.idea
 /.vscode
-
+package-lock.json
 /src/styles/tailwind.css
 
 npm-debug.log*

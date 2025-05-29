@@ -45,7 +45,7 @@ function ToolbarLayout1(props: ToolbarLayout1Props) {
 				position="static"
 				elevation={0}
 			>
-				<Toolbar className="min-h-48 p-0 md:min-h-64">
+				<Toolbar className="min-h-48 p-0 md:min-h-60">
 					<div className="flex flex-1 px-16">
 						{config.navbar.display && config.navbar.position === 'left' && (
 							<>
@@ -72,7 +72,7 @@ function ToolbarLayout1(props: ToolbarLayout1Props) {
 
 					<div className="flex h-full items-center overflow-x-auto px-8">
 						<LanguageSwitcher />
-						<AdjustFontSize />
+						{/* <AdjustFontSize /> */}
 						<FullScreenToggle />
 						{/* <NavigationSearch />
 						<QuickPanelToggleButton /> */}

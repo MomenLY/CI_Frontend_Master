@@ -60,9 +60,9 @@ input:focus {
 .talign-right {
   text-align: right;
 }
-.talign-center {
+/* .talign-center {
   text-align: center;
-}
+} */
 .bgc1 {
   background: #f1f1f1;
 }

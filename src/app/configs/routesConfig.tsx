@@ -1,6 +1,5 @@
 import FuseUtils from '@fuse/utils';
 import FuseLoading from '@fuse/core/FuseLoading';
-import { Navigate } from 'react-router-dom';
 import settingsConfig from 'app/configs/settingsConfig';
 import { FuseRouteConfigsType, FuseRoutesType } from '@fuse/utils/FuseUtils';
 import SignInConfig from '../main/sign-in/SignInConfig';
@@ -20,8 +19,13 @@ import ConfirmationConfig from '../main/confirmation-required/ConfirmationConfig
 import AdminResetPasswordConfig from '../main/admin-reset-password/AdminResetPasswordConfig';
 import AuthSuccessConfig from '../main/auth-success/AuthSuccessConfig';
 import UserDashboardConfig from '../main/user-dashboard/userDashboardConfig';
-import ExpoManagementConfig from '../main/expo-managment/ExpoManagementConfig';
-
+import ExpoManagementConfig from '../main/expo-management/ExpoManagementConfig';
+import { Navigate } from 'react-router-dom';
+import AttendeeConfig from '../main/add-attendee/AttendeeConfig';
+import userPublicConfig from '../main/user-dashboard/userPublicConfig';
+import useRegistrationConfig from '../main/emailSuccessResponse/useRegistrationConfig';
+import LobbyConfig from '../main/user-dashboard/config/lobbyConfig';
+import SuperAdminAccessConfig from '../main/super-admin-access/SuperAdminAccessConfig';
 
 const routeConfigs: FuseRouteConfigsType = [
 	DashboardConfig,
@@ -40,7 +44,12 @@ const routeConfigs: FuseRouteConfigsType = [
 	AdminResetPasswordConfig,
 	AuthSuccessConfig,
 	UserDashboardConfig,
-	ExpoManagementConfig
+	ExpoManagementConfig,
+	AttendeeConfig,
+	userPublicConfig,
+	useRegistrationConfig,
+	LobbyConfig,
+	SuperAdminAccessConfig
 ];
 
 /**
@@ -51,6 +60,11 @@ const routes: FuseRoutesType = [
 	{
 		path: '/',
 		element: <Navigate to="sign-in-success" />,
+		auth: settingsConfig.defaultAuth
+	},
+	{
+		path: '/admin',
+		element: <Navigate to="/admin/dashboard" />,
 		auth: settingsConfig.defaultAuth
 	},
 	{

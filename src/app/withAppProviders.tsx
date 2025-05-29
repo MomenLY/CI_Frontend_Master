@@ -14,10 +14,15 @@ import AppContext from './AppContext';
 import store from './store/store';
 import LocalCache from 'src/utils/localCache';
 import { cacheIndex } from './shared-components/cache/cacheIndex';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 type ComponentProps = {
 	name?: string;
 };
+
+// Create a react query client object
+export const queryClient = new QueryClient();
 
 /**
  * A Higher Order Component that provides the necessary context providers for the app.
@@ -40,15 +45,20 @@ function withAppProviders(Component: React.ComponentType<ComponentProps>) {
 
 		return (
 			<ErrorBoundary>
-				<AppContext.Provider value={val}>
-					<LocalizationProvider dateAdapter={AdapterDateFns}>
-						<Provider store={store}>
-							<StyledEngineProvider injectFirst>
-								<Component {...props} />
-							</StyledEngineProvider>
-						</Provider>
-					</LocalizationProvider>
-				</AppContext.Provider>
+				 {/* Provide the react query client to your App */}
+				 <QueryClientProvider client={queryClient}>
+					<AppContext.Provider value={val}>
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<Provider store={store}>
+								<StyledEngineProvider injectFirst>
+									<Component {...props} />
+								</StyledEngineProvider>
+							</Provider>
+						</LocalizationProvider>
+					</AppContext.Provider>
+					{/* Provide the react query dev tools for debugging */}
+					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+				</QueryClientProvider>
 			</ErrorBoundary>
 		);
 	}

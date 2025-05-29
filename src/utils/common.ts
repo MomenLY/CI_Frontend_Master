@@ -1,19 +1,23 @@
 export function OnionTruncate(str:string, num_chars:number) {
-    let result = '';
-    let count = 0;
-    let i = 0;
+     let result = '';
+  let count = 0;
+  
+  for (let i = 0; i < str.length; i++) {
+    result += str[i];
+    count++;
     
-    while (count < num_chars && i < str.length) {
-        if (str[i] !== ' ') {
-            result += str[i];
-            count++;
-        }
-        i++;
+    if (count >= num_chars) {
+      break;
     }
-    
-    if (i < str.length) {
-        result += '...';
-    }
-    
-    return result;
+  }
+  
+  if (count < str.length) {
+    result += '...';
+  }
+  
+  return result;
+}
+
+export const isDefaultLobby = (lobbyName) => {
+    return lobbyName === "defaultLobby"
 }

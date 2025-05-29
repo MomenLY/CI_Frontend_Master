@@ -17,7 +17,6 @@ export const updateStatus = async (id: string, status: string) => {
 
     return response?.data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -42,7 +41,6 @@ export const updateDefaultPassword = async (id: string, password: string,shouldS
 
     return response?.data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

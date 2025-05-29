@@ -1,0 +1,15 @@
+{
+    "poll_heading": "Polls",
+    "poll_question_label": "Question",
+    "poll_launch_btn": "Launch",
+    "poll_cancel": "Cancel",
+    "poll_option_btn": "ADD OPTION",
+    "poll_voting_label": "members voted",
+    "poll_stop_btn": "Stop",
+    "poll_votes_label": "Votes",
+    "poll_question_message": "Poll question is required",
+    "poll_option_message": "Option cannot be empty",
+    "poll_check_options": "Please provide at least two options",
+    "poll_question_placeholder": "Add poll Question",
+    "poll_option_label": "Add option"
+}

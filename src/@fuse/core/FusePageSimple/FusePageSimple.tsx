@@ -9,7 +9,7 @@ import FusePageSimpleHeader from './FusePageSimpleHeader';
 import FusePageSimpleSidebar from './FusePageSimpleSidebar';
 
 const headerHeight = 120;
-const toolbarHeight = 64;
+const toolbarHeight = 60;
 
 /**
  * Props for the FusePageSimple component.
@@ -214,7 +214,7 @@ const FusePageSimple = forwardRef<
 		leftSidebarOpen = false,
 		rightSidebarOpen = false,
 		rightSidebarWidth = 240,
-		leftSidebarWidth = 240,
+		leftSidebarWidth = 288,
 		leftSidebarVariant = 'permanent',
 		rightSidebarVariant = 'permanent',
 		rightSidebarOnClose,

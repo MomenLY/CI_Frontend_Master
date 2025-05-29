@@ -5,7 +5,7 @@ import { lazy, memo, ReactNode, Suspense, useContext } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { selectFuseCurrentLayoutConfig } from '@fuse/core/FuseSettings/fuseSettingsSlice';
 import { Layout1ConfigDefaultsType } from 'app/theme-layouts/layout1/Layout1Config';
-import Configurator from 'app/theme-layouts/shared-components/configurator/Configurator';
+// import Configurator from 'app/theme-layouts/shared-components/configurator/Configurator';
 import FuseSuspense from '@fuse/core/FuseSuspense';
 import { useAppSelector } from 'app/store/hooks';
 import FooterLayout1 from './components/FooterLayout1';
@@ -64,9 +64,9 @@ function Layout1(props: Layout1Props) {
 						<ToolbarLayout1 className={config.toolbar.style === 'fixed' ? 'sticky top-0' : ''} />
 					)}
 
-					<div className="sticky top-0 z-99">
+					{/* <div className="sticky top-0 z-99">
 						<Configurator />
-					</div>
+					</div> */}
 
 					<div className="relative z-10 flex min-h-0 flex-auto flex-col">
 						<FuseSuspense>{useRoutes(routes)}</FuseSuspense>

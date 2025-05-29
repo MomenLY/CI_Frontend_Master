@@ -35,13 +35,17 @@ export const authApiMocks = (mock: ExtendedMockAdapter) => {
 				roles: _user.roles ? _user.roles : [],
 				roleAcl: _user.roleAcl ? _user.roleAcl : "",
 				...((_user.roleId) ? { roleId: _user.roleId } : null),
+				...((_user.featureRestrictions) ? { featureRestrictions: _user.featureRestrictions } : null),
 				isDefault: _user.isDefault ? _user.isDefault : "",
 				data: {
-					displayName: _user.displayName,
-					email: _user.email,
+					displayName: _user.data.displayName,
+					email: _user.data.email,
+					userImage: _user.data.userImage,
+					userTimeZone: _user.data.userTimeZone,
+					tenant: _user.data.tenant
 				},
 			}
-			const userRole = LocalCache.setItem(cacheIndex.userData, user);
+			await LocalCache.setItem(cacheIndex.userData, user);
 			const access_token = userData?.data?.data?.access_token;
 			const tenant = userData?.data?.data?.tenant;
 			const enforcePasswordReset = userData?.data?.data?.resetPassword;
@@ -96,10 +100,28 @@ export const authApiMocks = (mock: ExtendedMockAdapter) => {
 				});
 				error.push({
 					type: 'root',
-					message: 'Invalid credentials'
+					message: 'login_invalid'
 				});
 			}
-
+			else if (errorMessage === 'Your account is Inactive. Please contact Admin.') {
+				error.push({
+					type: 'root',
+					message: 'login_user_inactive'
+				});
+			} 
+			else if (errorMessage === "Your account is Suspended. Please contact Admin.") {
+				error.push({
+					type: 'root',
+					message: 'login_user_suspended'
+				});
+			}
+			else if (errorMessage === "Your account has been deleted.") {
+				error.push({
+					type: 'root',
+					message:'login_user_deleted'
+				});
+			}
+			
 			return [400, error];
 		}
 	});
@@ -309,29 +331,30 @@ export const authApiMocks = (mock: ExtendedMockAdapter) => {
 
 	// Generate Authorization header on each successfull response
 	axios.interceptors.response.use(
-		(response) => {
-			// get access token from response headers
-			const requestHeaders = response.config.headers;
-			const authorization = requestHeaders.Authorization as string;
-			const accessToken = authorization?.split(' ')[1];
-			const responseUrl = response.config.url;
+		// (response) => {
+		// 	// get access token from response headers
+		// 	const requestHeaders = response.config.headers;
+		// 	const authorization = requestHeaders.Authorization as string;
+		// 	const accessToken = authorization?.split(' ')[1];
+		// 	const responseUrl = response.config.url;
 
-			if (responseUrl.startsWith('/mock-api') && authorization) {
+		// 	if (responseUrl.startsWith('/mock-api') && authorization) {
+		// 		return true;
+		// 		if (!accessToken || !verifyJWTToken(accessToken)) {
+		// 			const error = new Error("Invalid access token detected.");
+		// 			// @ts-ignore
+		// 			error.status = 401;
+		// 			return Promise.reject(error);
+		// 		}
 
-				if (!accessToken || !verifyJWTToken(accessToken)) {
-					const error = new Error("Invalid access token detected.");
-					// @ts-ignore
-					error.status = 401;
-					return Promise.reject(error);
-				}
+		// 		const newAccessToken = generateAccessToken(response.config);
 
-				const newAccessToken = generateAccessToken(response.config);
-
-				if (newAccessToken) {
-					response.headers['New-Access-Token'] = newAccessToken.access_token as string;
-				}
-				return response;
-			}
-			return response;
-		});
+		// 		if (newAccessToken) {
+		// 			response.headers['New-Access-Token'] = newAccessToken.access_token as string;
+		// 		}
+		// 		return response;
+		// 	}
+		// 	return response;
+		// }
+		);
 };

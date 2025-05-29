@@ -9,7 +9,7 @@ import _ from '@lodash';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodError, ZodIssue } from 'zod';
 import { SignUpPayload, useAuth } from '../../../auth/AuthRouteProvider';
-import { Alert, CircularProgress, ClickAwayListener, styled, Tooltip, tooltipClasses, TooltipProps, Typography } from '@mui/material';
+import { Alert, CircularProgress, ClickAwayListener, IconButton, InputAdornment, InputLabel, OutlinedInput, styled, Tooltip, tooltipClasses, TooltipProps, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useDebounce } from '@fuse/hooks';
@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingsApi } from '../apis/Settings-Api';
 import OnionPasswordPreview from 'app/shared-components/components/OnionPasswordPreview';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 /**
  * Form Validation Schema
  */
@@ -48,12 +49,14 @@ function JwtSignUpTab() {
 	const [prevData, setPrevData] = useState<PasswordForm>();
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [open, setOpen] = useState<boolean>(false);
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
 	const handleUpdate = useDebounce((data: any) => {
-		if (data?.message == 'User accounts created successfully' || data?.message == 'User Account Creation Successfully') {
-			dispatch(showMessage({ message: data?.message || 'User created', variant: 'success' }));
+		if (data?.message.message[0] == 'User accounts created successfully' || data?.message.message[0] == 'User Account Creation Successfully') {
+			dispatch(showMessage({ message: data?.message.message[0] || 'User created', variant: 'success' }));
 		} else {
-			dispatch(showMessage({ message: data?.message || 'User created', variant: 'warning' }));
+			dispatch(showMessage({ message: data?.message.message[0] || 'User created', variant: 'warning' }));
 		}
 		setTimeout(() => {
 			navigate('/confirmation')
@@ -154,15 +157,40 @@ function JwtSignUpTab() {
 		}
 	}, [errors.password])
 
+	const handleClickShowPassword = () => {
+		setShowPassword((show) => !show)
+	};
+
+	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleClickShowConfirmPassword = () => {
+		setShowConfirmPassword((show) => !show)
+	};
+
+	const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+	const handleMouseUpConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
+
+
 	return (
 		<div className="mx-auto w-full max-w-320 sm:mx-0 sm:w-320">
-			<img
+			{/* <img
 				className="w-48"
 				src="assets/images/logo/logo.svg"
 				alt="logo"
-			/>
+			/> */}
 
-			<Typography className="mt-32 text-4xl font-extrabold leading-tight tracking-tight">
+			<Typography className="mt-32 text-4xl font-bold leading-tight tracking-tight">
 				{t('signUp')}
 			</Typography>
 			<div className="mt-2 flex items-baseline font-medium">
@@ -241,41 +269,81 @@ function JwtSignUpTab() {
 						name="password"
 						control={control}
 						render={({ field }) => (
-							<OnionPasswordPreview
-								isOpen={open}
-								onClose={() => setOpen(false)}
-								password={field.value}
-							>
-								<TextField
-									{...field}
-									className="mb-24"
-									label={t('password')}
-									type="password"
-									error={!!errors.password}
-									// helperText={errors?.password?.message}
-									variant="outlined"
-									required
-									fullWidth
-									onClick={() => setOpen(true)}
-								/>
-							</OnionPasswordPreview>
+							<FormControl className="w-full md:max-w-[335px] mb-20" variant="outlined" error={!!errors.password}>
+								<InputLabel htmlFor="outlined-adornment-password">
+									{t('password')}
+								</InputLabel>
+
+								<OnionPasswordPreview
+									isOpen={open}
+									onClose={() => setOpen(false)}
+									password={field.value}
+								>
+									<OutlinedInput
+										{...field}
+										id="outlined-adornment-password"
+										type={showPassword ? 'text' : 'password'}
+										label={t('password')}
+										error={!!errors.password}
+										onChange={(e) => {
+											field.onChange(e);
+											if (errors.password) {
+												setOpen(true)
+											}
+										}}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={handleClickShowPassword}
+													onMouseDown={handleMouseDownPassword}
+													onMouseUp={handleMouseUpPassword}
+													edge="end"
+												>
+													{showPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										}
+									/>
+								</OnionPasswordPreview>
+								<FormHelperText>
+									{errors?.password?.message}
+								</FormHelperText>
+							</FormControl>
 						)}
 					/>
 					<Controller
 						name="passwordConfirm"
 						control={control}
 						render={({ field }) => (
-							<TextField
-								{...field}
-								className="mb-24"
-								label={`${t('password')}(${t('confirm')})`}
-								type="password"
-								error={!!errors.passwordConfirm}
-								helperText={errors?.passwordConfirm?.message}
-								variant="outlined"
-								required
-								fullWidth
-							/>
+							<FormControl className="w-full md:max-w-[335px] mb-24" variant="outlined" error={!!errors.passwordConfirm}>
+								<InputLabel htmlFor="outlined-adornment-password">
+									{`${t('password')}(${t('confirm')})`}
+								</InputLabel>
+								<OutlinedInput
+									{...field}
+									id="outlined-adornment-password"
+									type={showConfirmPassword ? 'text' : 'password'}
+									label={`${t('password')}(${t('confirm')})`}
+									error={!!errors.passwordConfirm}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowConfirmPassword}
+												onMouseDown={handleMouseDownConfirmPassword}
+												onMouseUp={handleMouseUpConfirmPassword}
+												edge="end"
+											>
+												{showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+											</IconButton>
+										</InputAdornment>
+									}
+								/>
+								<FormHelperText>
+									{errors?.passwordConfirm?.message}
+								</FormHelperText>
+							</FormControl>
 						)}
 					/>
 					<Controller

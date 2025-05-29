@@ -1,0 +1,22 @@
+{
+    "dashboard_widget_seats_available": "Seats Available",
+    "dashboard_widget_registrations": "Registrations",
+    "dashboard_widget_total_seats": "Total Seats",
+    "dashboard_widget_title": "Registration Analysics",
+    "dashboard_widget_unlimited": "Unlimited",
+    "dashboard_expo_analitics_header": "Expo Performance Analytics",
+    "dashboard_expo_analitics_discription": "Your complete view of registrations, booth activity, and billboard performance in one place - helping you make smarter decisions for your event.",
+    "dashboard_expo_header": "Expo Portfolio Dashboard",
+    "dashboard_expo_discription": "A real-time overview of your entire expo ecosystem—track total events, monitor delivery formats, and stay on top of timeline progression, all in one streamlined dashboard.",
+    "dashboard_total_expo": "Total Expo",
+    "dashboard_ongoing_expo": "Ongoing Expo",
+    "dashboard_past_expo": "Past Expo",
+    "dashboard_future_expo": "Future Expo",
+    "dashboard_online_expo": "Online Expo",
+    "dashboard_on_site_expo": "On-site Expo",
+    "dashboard_hybrid_expo": "Hybrid Expo",
+    "dashboard_select_expo": "Select Expo",
+    "dashboard_billboard_booth_header": "Billboard & Booth Analysics",
+    "dashboard_billboard_analytics": "Billboard Analytics",
+    "dashboard_booth_analytics": "Booth Analytics"
+}

@@ -1,0 +1,14 @@
+import axios from 'app/store/axiosService';
+
+export const GetUserByEmail = async ({ email }) => {
+	try {
+		const response = await axios.request({
+			url: `/users/${email}`,
+			method: 'get'
+		});
+		return response?.data;
+	} catch (error) {
+		console.error('Error fetching data:', error);
+		return error;
+	}
+};

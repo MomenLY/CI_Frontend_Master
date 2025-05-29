@@ -1,0 +1,9 @@
+{
+    "validEmailMessage": "You must enter a valid email",
+    "emailRequiredMessage": "You must enter an email",
+    "passwordMinLengthMessage": "Password is too short - must be at least 4 chars.",
+    "passwordRequiredMessage": "Please enter your password.",
+    "firstNameRequiredMessage": "First Name is required",
+    "lastNameRequiredMessage": "Last Name is required",
+    "roleRequiredMessage": "Role is required"
+}

@@ -14,7 +14,6 @@ import { rootReducer } from 'app/store/lazyLoadedSlices';
 const navigationAdapter = createEntityAdapter<FuseFlatNavItemType>();
 
 const emptyInitialState = navigationAdapter.getInitialState([]);
-
 const initialState = navigationAdapter.upsertMany(
 	emptyInitialState,
 	FuseNavigationHelper.flattenNavigation(navigationConfig)
@@ -35,56 +34,76 @@ window.addEventListener("lang-updated", langUpdateHandler);
  */
 export const appendNavigationItem =
 	(item: FuseNavItemType, parentId?: string | null): AppThunk =>
-	async (dispatch, getState) => {
-		const AppState = getState();
-		const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
+		async (dispatch, getState) => {
+			const AppState = getState();
+			if (!AppState.navigation) {
+				// console.error('Navigation state is not ready');
+				return;
+			}
 
-		dispatch(setNavigation(FuseNavigationHelper.appendNavItem(navigation, FuseNavItemModel(item), parentId)));
+			const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
 
-		return Promise.resolve();
-	};
+			dispatch(setNavigation(FuseNavigationHelper.appendNavItem(navigation, FuseNavItemModel(item), parentId)));
+
+			return Promise.resolve();
+		};
 
 /**
  * Prepends a navigation item to the navigation store state.
  */
 export const prependNavigationItem =
 	(item: FuseNavItemType, parentId?: string | null): AppThunk =>
-	async (dispatch, getState) => {
-		const AppState = getState();
-		const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
+		async (dispatch, getState) => {
+			const AppState = getState();
+			if (!AppState.navigation) {
+				// console.error('Navigation state is not ready');
+				return;
+			}
 
-		dispatch(setNavigation(FuseNavigationHelper.prependNavItem(navigation, FuseNavItemModel(item), parentId)));
+			const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
 
-		return Promise.resolve();
-	};
+			dispatch(setNavigation(FuseNavigationHelper.prependNavItem(navigation, FuseNavItemModel(item), parentId)));
+
+			return Promise.resolve();
+		};
 
 /**
  * Adds a navigation item to the navigation store state at the specified index.
  */
 export const updateNavigationItem =
 	(id: string, item: PartialDeep<FuseNavItemType>): AppThunk =>
-	async (dispatch, getState) => {
-		const AppState = getState();
-		const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
+		async (dispatch, getState) => {
+			const AppState = getState();
+			if (!AppState.navigation) {
+				// console.error('Navigation state is not ready');
+				return;
+			}
+			const navigationItems = selectNavigationAll(AppState);
+			const navigation = FuseNavigationHelper.unflattenNavigation(navigationItems);
+			dispatch(setNavigation(FuseNavigationHelper.updateNavItem(navigation, id, item)));
 
-		dispatch(setNavigation(FuseNavigationHelper.updateNavItem(navigation, id, item)));
+			return Promise.resolve();
+		};
 
-		return Promise.resolve();
-	};
 
 /**
  * Removes a navigation item from the navigation store state.
  */
 export const removeNavigationItem =
 	(id: string): AppThunk =>
-	async (dispatch, getState) => {
-		const AppState = getState();
-		const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
+		async (dispatch, getState) => {
+			const AppState = getState();
+			if (!AppState.navigation) {
+				// console.error('Navigation state is not ready');
+				return;
+			}
 
-		dispatch(setNavigation(FuseNavigationHelper.removeNavItem(navigation, id)));
+			const navigation = FuseNavigationHelper.unflattenNavigation(selectNavigationAll(AppState));
 
-		return Promise.resolve();
-	};
+			dispatch(setNavigation(FuseNavigationHelper.removeNavItem(navigation, id)));
+
+			return Promise.resolve();
+		};
 
 export const {
 	selectAll: selectNavigationAll,
@@ -112,7 +131,7 @@ export const navigationSlice = createSlice({
 rootReducer.inject(navigationSlice);
 navigationSlice.injectInto(rootReducer);
 declare module 'app/store/lazyLoadedSlices' {
-	export interface LazyLoadedSlices extends WithSlice<typeof navigationSlice> {}
+	export interface LazyLoadedSlices extends WithSlice<typeof navigationSlice> { }
 }
 
 export const { setNavigation, resetNavigation } = navigationSlice.actions;

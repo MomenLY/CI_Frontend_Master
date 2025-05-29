@@ -82,6 +82,9 @@ function OnionPasswordPreview({ children, isOpen, onClose, password }: Props) {
 		if (password !== undefined) {
 			handleChange(password);
 		}
+		// if (!passwordRules._passwordRange || !passwordRules._requireMinimumOneCapitalLetter || !passwordRules._requireMinimumOneNumerical || !passwordRules._requireMinimumOneSpecialCharacter) {
+		// 	isOpen = true;
+		// }
 	}, [password]);
 
 	const getPasswordData = async () => {

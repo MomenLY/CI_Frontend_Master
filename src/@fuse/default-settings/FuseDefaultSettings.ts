@@ -85,10 +85,11 @@ export function getParsedQuerySettings() {
  */
 export const defaultThemeOptions = {
 	typography: {
-		fontFamily: ['Inter var', 'Roboto', '"Helvetica"', 'Arial', 'sans-serif'].join(','),
+		fontFamily: ['Poppins','Inter var', 'Roboto', '"Helvetica"', 'Arial', 'sans-serif'].join(','),
 		fontWeightLight: 300,
 		fontWeightRegular: 400,
-		fontWeightMedium: 500
+		fontWeightMedium: 500,
+		fontWeightBold: 700
 	},
 	components: {
 		MuiAppBar: {

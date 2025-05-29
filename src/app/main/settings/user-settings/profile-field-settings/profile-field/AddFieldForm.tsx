@@ -10,7 +10,7 @@ function AddFieldForm() {
     <>
       <OnionCustomFieldForm
         endPoint='profile-fields'
-        exitEndpoint="/expo-management/manage/registration"
+        exitEndpoint={-1}
         type='profile'
         onSubmitComplete={()=>dispatchRefresh(setState(!state))}
       />

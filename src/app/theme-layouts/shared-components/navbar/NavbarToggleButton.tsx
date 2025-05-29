@@ -23,7 +23,7 @@ function NavbarToggleButton(props: NavbarToggleButtonProps) {
 				size={20}
 				color="action"
 			>
-				heroicons-outline:view-list
+				material-outline:dehaze
 			</FuseSvgIcon>
 		)
 	} = props;

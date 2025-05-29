@@ -7,7 +7,7 @@ import {
 	CircularProgress,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { ZodIssueCode, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "@lodash";
 import { useDebounce } from "@fuse/hooks";
@@ -35,37 +35,63 @@ const defaultValues = {
 	firstName: "",
 	lastName: "",
 	email: "",
-	roleIds: [""],
+	roleIds: [''],
+	designation: '',
+	organisation: '',
 };
 
 type FormData = {
 	firstName: string;
 	lastName: string;
 	email: string;
-	roleIds: string[];
+	roleIds?: string[];
+	designation?: string;
+	organisation?: string;
 };
 
-const schema = z.object({
-	firstName: z.string().optional(),
-	lastName: z.string().optional(),
-	email: z.string().email("You must enter a valid email").optional(),
-	roleIds: z.string().nullable(),
-});
-
 function UpdateAdminForm() {
-	const { t } = useTranslation();
+	const { t } = useTranslation('adminManagement');
 	const routeParams = useParams();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [userData, setUserData] = useState<FormData>();
 	const [roleData, setRoleData] = useState<any[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [selectedRole, setSelectedRole] = useState('');
 
 	const getUserData = async () => {
 		const User = await GetUserAPI({ id: routeParams.id });
 		setUserData(User?.data);
 	};
 
+	const schema = z.object({
+		firstName: z.string().optional(),
+		lastName: z.string().optional(),
+		email: z.string().email('adminManagement_valid_email').optional(),
+		designation: z.string().optional(),
+		organisation: z.string().optional(),
+		roleIds: z.string().nullable(),
+	}).superRefine((data, ctx) => {
+		const speakerRoleId = import.meta.env.VITE_SPEAKER_ID;
+
+		if (data.roleIds?.includes(speakerRoleId)) {
+			if (!data.designation || data.designation.trim() === '') {
+				ctx.addIssue({
+					code: ZodIssueCode.custom,
+					path: ['designation'],
+					message: 'adminForm_designation_required',
+				});
+			}
+
+			if (!data.organisation || data.organisation.trim() === '') {
+				ctx.addIssue({
+					code: ZodIssueCode.custom,
+					path: ['organisation'],
+					message: 'adminForm_organisation_required',
+				});
+			}
+		}
+	});
 
 	const GetAllAdmins = useCallback(
 		debounce(async () => {
@@ -79,7 +105,7 @@ function UpdateAdminForm() {
 		[]
 	);
 
-	const { control, formState, handleSubmit, setValue } = useForm({
+	const { control, formState, handleSubmit, watch, setValue } = useForm({
 		mode: "onChange",
 		defaultValues,
 		resolver: zodResolver(schema),
@@ -93,11 +119,18 @@ function UpdateAdminForm() {
 	}, []);
 
 	useEffect(() => {
-		setValue("firstName", userData?.firstName || "");
-		setValue("lastName", userData?.lastName || "");
-		setValue("email", userData?.email || "");
-		setValue("roleIds", userData?.roleIds[0] || []);
-	}, [userData]);
+		if (userData) {
+			setValue("firstName", userData.firstName || "");
+			setValue("lastName", userData.lastName || "");
+			setValue("email", userData.email || "");
+			setValue("roleIds", userData.roleIds[0] || []);
+			setValue("designation", userData.designation || "");
+			setValue("organisation", userData.organisation || "");
+		}
+	}, [userData, setValue]);
+
+	const userRole = watch('roleIds');
+	const speakerRoleId = import.meta.env.VITE_SPEAKER_ID;
 
 	const handleUpdate = useDebounce(() => {
 		dispatch(showMessage({ message: t('userUpdatedSuccess'), variant: 'success' }));
@@ -110,17 +143,28 @@ function UpdateAdminForm() {
 		const { firstName, lastName, email, roleIds } = formData;
 		Onion.log(roleIds, "in update form")
 		setIsLoading((prev) => !prev);
-		const data = {
-			userId: routeParams.id,
+		const data: {
+			_id: string;
+			firstName: string;
+			lastName: string;
+			email: string;
+			roleIds: string[];
+			organisation?: string;
+			designation?: string;
+		} = {
+			_id: routeParams.id,
 			firstName,
 			lastName,
 			email,
-			roleIds
+			roleIds: roleIds !== null ? [roleIds] : [],
 		};
+
+		if (formData.roleIds.includes(speakerRoleId)) {
+			data.organisation = formData.organisation;
+			data.designation = formData.designation;
+		}
 		try {
-
-
-			const response = await UpdateUserAPI({ data });
+			const response = await UpdateUserAPI(data);
 			const result = response?.data;
 			if (result) {
 				// updateLocalCache(result);
@@ -131,7 +175,7 @@ function UpdateAdminForm() {
 		} catch (err) {
 			const errorMesssage = err?.response?.data?.message;
 			if (errorMesssage) {
-				dispatch(showMessage({ message: errorMesssage || 'User already exists', variant: 'error' }));
+				dispatch(showMessage({ message: errorMesssage || t('userAlready_exists'), variant: 'error' }));
 				// navigate('/users');
 				setIsLoading((prev) => !prev);
 			}
@@ -144,7 +188,7 @@ function UpdateAdminForm() {
 			exitEndpoint="/admin/settings/user-settings/admin-management"
 			sidebarWidth='small'
 			footer={true}
-			footerButtonLabel={t('save')}
+			footerButtonLabel={t('common_save')}
 			footerButtonClick={handleSubmit(onSubmit)}
 			footerButtonDisabled={isLoading}
 			isFooterButtonLoading={isLoading}
@@ -172,7 +216,7 @@ function UpdateAdminForm() {
 							autoFocus
 							type="firstName"
 							error={!!errors.firstName}
-							helperText={errors?.firstName?.message}
+							helperText={t(errors?.firstName?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -185,10 +229,9 @@ function UpdateAdminForm() {
 						<TextField
 							{...field}
 							label={t("lastName")}
-							autoFocus
 							type="lastName"
 							error={!!errors.lastName}
-							helperText={errors?.lastName?.message}
+							helperText={t(errors?.lastName?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -201,10 +244,10 @@ function UpdateAdminForm() {
 						<TextField
 							{...field}
 							label={t("email")}
-							autoFocus
 							type="email"
+							disabled
 							error={!!errors.email}
-							helperText={errors?.email?.message}
+							helperText={t(errors?.email?.message)}
 							variant="outlined"
 							fullWidth
 						/>
@@ -219,14 +262,18 @@ function UpdateAdminForm() {
 								id="outlined-select-currency"
 								label={t("role")}
 								select
+								helperText={t(errors?.roleIds?.message)}
 								{...field}
+								onChange={(e) => {
+									const selectedRoleName = roleData.find(role => role._id === e.target.value)?.name;
+									setSelectedRole(selectedRoleName || '');
+									field.onChange(e);
+								}}
 							>
-								{(roleData !== null || undefined) &&
-									roleData.map((option) => (
-										<MenuItem
-											key={option._id}
-											value={option._id}
-										>
+								{roleData
+									?.filter((role) => role.roleType !== "enduser")
+									.map((option) => (
+										<MenuItem key={option._id} value={option._id}>
 											{option.name}
 										</MenuItem>
 									))}
@@ -234,6 +281,45 @@ function UpdateAdminForm() {
 						</FormGroup>
 					)}
 				/>
+				{
+					(userRole === speakerRoleId) &&
+					<>
+						<Controller
+							name="designation"
+							control={control}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									label={t('adminForm_designation')}
+									required
+									type="designation"
+									error={!!errors.designation}
+									helperText={t(errors?.designation?.message)}
+									variant="outlined"
+									fullWidth
+									className='!mb-0'
+								/>
+							)}
+						/>
+						<Controller
+							name="organisation"
+							control={control}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									label={t('adminForm_organisation')}
+									required
+									type="organisation"
+									error={!!errors.organisation}
+									helperText={t(errors?.organisation?.message)}
+									variant="outlined"
+									fullWidth
+									className='!mb-0'
+								/>
+							)}
+						/>
+					</>
+				}
 			</form>
 		</OnionSidebar>
 	);

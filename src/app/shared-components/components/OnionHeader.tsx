@@ -1,25 +1,29 @@
 import { Breadcrumbs, Typography } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
 
-type Props={
+type Props = {
     title?: string;
     titleLink?: string;
     firstLabel?: string;
     secondLabel?: string;
 }
 
-function OnionHeader({title, titleLink, firstLabel, secondLabel}: Props) {
-    
+function OnionHeader({ title, titleLink, firstLabel, secondLabel }: Props) {
+
     return (
         <div>
             <div className=" flex md:flex-row flex-col justify-between md:items-center pb-24">
-                <Typography
-                    component="h2"
-                    className="flex-1 text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate "
+                <motion.span
+                    initial={{ x: -20 }}
+                    animate={{ x: 0, transition: { delay: 0.2 } }}
                 >
-                    {title}
-                </Typography>
+                    <Typography
+                        component="h2"
+                        className="flex-1 text-3xl md:text-4xl font-bold tracking-tight leading-7 sm:leading-10 truncate "
+                    >
+                        {title}
+                    </Typography>
+                </motion.span>
             </div>
         </div>)
 }

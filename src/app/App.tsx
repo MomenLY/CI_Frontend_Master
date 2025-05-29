@@ -22,6 +22,12 @@ import { setI18nBackendUrl } from 'src/i18n';
 // axios.defaults.baseURL = "";
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { AnalyticsProvider } from './shared-components/AnalyticsProvider';
+import { HelmetProvider } from 'react-helmet-async';
 
 const emotionCacheOptions = {
 	rtl: {
@@ -36,21 +42,22 @@ const emotionCacheOptions = {
 	}
 };
 
+const queryClient = new QueryClient();
+
 /**
  * The main App component.
  */
-function App() {
-	/**
+function App() {	/**
 	 * The language direction from the Redux store.
 	 */
 	const langDirection = useAppSelector(selectCurrentLanguageDirection);
-
 	/**
 	 * The main theme from the Redux store.
 	 */
 	const mainTheme = useSelector(selectMainTheme);
 
 	return (
+		<HelmetProvider>
 		<MockAdapterProvider>
 			<CacheProvider value={createCache(emotionCacheOptions[langDirection] as Options)}>
 				<FuseTheme
@@ -58,22 +65,32 @@ function App() {
 					direction={langDirection}
 				>
 					<AuthRouteProvider>
-						<SnackbarProvider
-							maxSnack={5}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'right'
-							}}
-							classes={{
-								containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99'
-							}}
+						<AnalyticsProvider
+							trackingId=""
+							userInfo={{}}
+							isAuthenticated={false}
 						>
-							<FuseLayout layouts={themeLayouts} />
-						</SnackbarProvider>
+							<QueryClientProvider client={queryClient}>
+								<SnackbarProvider
+									maxSnack={5}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'right'
+									}}
+									classes={{
+										containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99'
+									}}
+								>
+									<FuseLayout layouts={themeLayouts} />
+									<ReactQueryDevtools initialIsOpen={false} />
+								</SnackbarProvider>
+							</QueryClientProvider>
+						</AnalyticsProvider>
 					</AuthRouteProvider>
 				</FuseTheme>
 			</CacheProvider>
 		</MockAdapterProvider>
+		</HelmetProvider>
 	);
 }
 

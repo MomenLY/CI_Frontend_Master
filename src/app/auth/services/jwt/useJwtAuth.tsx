@@ -7,6 +7,9 @@ import { getUserAPI } from "@mock-api/api/token-api";
 import LocalCache from "src/utils/localCache";
 import history from "@history";
 import { cacheIndex } from 'app/shared-components/cache/cacheIndex';
+import { useAppSelector } from "app/store/hooks";
+import { selectUser } from "../../user/store/userSlice";
+import { userProfileUpdate } from "src/app/main/settings/general-settings/profile-settings/apis/UserAPI";
 
 const defaultAuthConfig = {
 	tokenStorageKey: "jwt_access_token",
@@ -51,6 +54,8 @@ export type JwtAuth<User, SignInPayload, SignUpPayload> = {
 	setIsLoading: (isLoading: boolean) => void;
 	enforcePasswordReset: boolean;
 	refreshAccess: () => void;
+	handleSuperAdminAccess: (accessToken: string, userData: any, enforcePasswordReset: boolean, tenantId: string) => void;
+	handleUpdateDetails: (accessToken: string, userData: any, enforcePasswordReset: boolean, tenantId: string) => void;
 };
 
 /**
@@ -67,6 +72,7 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 	props: JwtAuthProps<User>
 ): JwtAuth<User, SignInPayload, SignUpPayload> => {
 	const { config, onSignedIn, onSignedOut, onSignedUp, onError, onUpdateUser } = props;
+	const userData = useAppSelector(selectUser);
 
 	// Merge default config with the one from the props
 	const authConfig = _.defaults(config, defaultAuthConfig);
@@ -116,10 +122,8 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 	 */
 
 	const handleSignInSuccess = useCallback(async (userData: User, accessToken: string, enforcePasswordReset?: boolean) => {
-
 		setSession(accessToken);
 		_setUser(userData)
-
 		if (enforcePasswordReset === true) {
 			setTimeout(() => history.push('/reset-password'), 0);
 			setUser(userData);
@@ -130,10 +134,18 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 		}
 
 	}, []);
+
 	/**
 	 * Handle sign-up success
 	 */
 
+	const handleSuperAdminAccess = useCallback(async (accessToken: string, userData: User, enforcePasswordReset: boolean, tenantId: string) => {
+
+		setTenantId(tenantId);
+		handleSignInSuccess(userData, accessToken, enforcePasswordReset);
+		channel.postMessage("ci-logout"); 
+
+	}, []);
 
 	const handleSignUpSuccess = useCallback((userData: User) => {
 		// setSession(accessToken);
@@ -143,6 +155,17 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 		setUser(userData);
 
 		onSignedUp(userData);
+	}, []);
+
+
+	/**
+	 * 
+	 * handle update user details
+	 */
+
+	const handleUpdateDetails = useCallback(async (accessToken: string, userData: User, enforcePasswordReset: boolean, tenantId: string) => {
+		setTenantId(tenantId);
+		handleSignInSuccess(userData, accessToken, enforcePasswordReset);
 	}, []);
 
 	/**
@@ -204,7 +227,6 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 	useEffect(() => {
 		const attemptAutoLogin = async () => {
 			const accessToken = getAccessToken();
-
 			if (accessToken) {
 				try {
 					setIsLoading(true);
@@ -212,14 +234,16 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 					const _user = User?.data?.user;
 					const userData: any = {
 						uuid: _user.uuid,
-						role: _user.role ? (_user.role === 'endUser' ? 'user' : 'admin') : (_user.roles[0]?.roleType === 'endUser' ? 'user' : 'admin'),
+						role: _user.role ? (_user.role === 'enduser' ? 'user' : 'admin') : (_user.roles[0]?.roleType === 'endUser' ? 'user' : 'admin'),
 						roles: _user.roles ? _user.roles : [],
 						roleAcl: _user.roleAcl ? _user.roleAcl : "",
 						...((_user.roleId) ? { roleId: _user.roleId } : null),
 						isDefault: _user.isDefault ? _user.isDefault : "",
 						data: {
-							displayName: _user.displayName,
-							email: _user.email,
+							displayName: _user?.data?.displayName,
+							email: _user?.data?.email,
+							userImage: _user?.data?.userImage,
+							tenant: _user.data.tenant
 						},
 					}
 					let enforcePasswordReset;
@@ -256,6 +280,20 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 		isAuthenticated
 	]);
 
+	const channel = new BroadcastChannel("auth");
+
+	useEffect(() => {
+		channel.onmessage = (event) => {
+			if (event.data === "ci-logout") {
+				window.location.reload(); // or handle logout properly
+			}
+		};
+
+		return () => {
+			channel.close();
+		};
+	}, []);
+
 	/**
 	 * Sign in
 	 */
@@ -270,6 +308,7 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 				const accessToken = res?.data?.access_token;
 				const tenantId = res?.data?.tenant;
 				const enforcePasswordReset = res?.data?.enforcePasswordReset;
+				LocalCache.deleteItem(cacheIndex.settings);
 				setEnforcePasswordReset(enforcePasswordReset)
 				handleSignInSuccess(userData, accessToken, enforcePasswordReset);
 				setTenantId(tenantId);
@@ -321,10 +360,17 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 		setIsAuthenticated(false);
 		setEnforcePasswordReset(null)
 		setUser(null);
+
 		await LocalCache.deleteItem(cacheIndex.userData);
+		await LocalCache.deleteItem(cacheIndex.userProfile);
+
+		await LocalCache.clearAll();
+		// await LocalCache.deleteItem(cacheIndex.settings);
 		onSignedOut();
 		localStorage.removeItem(cacheIndex.userRoleId);
-		window.location.href = "/sign-in";
+		// window.location.href = "/sign-in";
+		channel.postMessage("ci-logout"); 
+		history.push("/sign-in");
 	}, []);
 
 	/**
@@ -349,6 +395,28 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 			return axiosError;
 		}
 	}, []);
+
+	// const updateUser = useCallback(async (userId: string, userData: any) => {
+	// 	try {
+	// 		const response = await userProfileUpdate(userId, userData)
+	// 		const updatedUserData = response?.data;
+	// 		const existingData = await LocalCache.getItem(cacheIndex.userData);
+	// 		const updatedData = {
+	// 			...existingData,
+	// 			data: {
+	// 				displayName: userData.firstName + " " + userData.lastName,
+	// 			}
+	// 		};
+	// 		onUpdateUser(updatedData);
+
+	// 		return null;
+	// 	} catch (error) {
+	// 		const axiosError = error as AxiosError;
+
+	// 		handleError(axiosError);
+	// 		return axiosError;
+	// 	}
+	// }, []);
 
 	const refreshAccess = async () => {
 		const accessToken = getAccessToken();
@@ -426,6 +494,8 @@ const useJwtAuth = <User, SignInPayload, SignUpPayload>(
 		refreshToken,
 		setIsLoading,
 		refreshAccess,
+		handleSuperAdminAccess,
+		handleUpdateDetails
 	};
 };
 

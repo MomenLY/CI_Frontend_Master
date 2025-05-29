@@ -8,13 +8,13 @@ function ConfirmationTab() {
   
     return (
         <div className="mx-auto w-full max-w-320 sm:mx-0 sm:w-320">
-            <img
+            {/* <img
                 className="w-48"
                 src="assets/images/logo/logo.svg"
                 alt="logo"
-            />
+            /> */}
 
-            <Typography className="mt-32 text-4xl font-extrabold leading-tight tracking-tight">
+            <Typography className="mt-32 text-4xl font-bold leading-tight tracking-tight">
                 {t('confirmationRequired')}
             </Typography>
             <Typography className="mt-16">

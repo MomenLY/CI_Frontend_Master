@@ -4,10 +4,10 @@ export const saveLanguageToStorage = (languageId) => {
 
 export const getLanguageFromStorage = () => {
   let lng = 'en';
-  try { 
-    lng = localStorage.getItem('lng'); 
-  } catch (error) { 
-    console.log(error); 
+  try {
+    lng = localStorage.getItem('lng');
+  } catch (error) {
+    console.log(error);
   }
   return lng;
 }

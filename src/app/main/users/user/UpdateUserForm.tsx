@@ -95,7 +95,6 @@ function UpdateUserForm() {
 	}, 300);
 
 	const onSubmit = async (formData: FormData) => {
-		console.log(formData, "ggggggggggg");
 		const { firstName, lastName, email, roleIds } = formData;
 		setIsLoading((prev) => !prev);
 		const data = {

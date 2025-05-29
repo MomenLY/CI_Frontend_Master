@@ -1,0 +1,9 @@
+{
+    "favContacts_heading": "Favorite Contacts",
+    "favContact_unfavoriteUser_confirmation": "Yes, Remove",
+    "favContact_unFavoriteUser_confirmTitle": "Remove Favorite User",
+    "favContact_unFavoriteUser_confirmMessage": "Are you sure you want to remove this user from your favorite users list?",
+    "favContacts_unfavoriteUser_errorMessage": "Error in removing user from favorite list",
+    "favContacts_unfavoriteUser_genericError": "Something went wrong while trying to remove this user from your favorites. Please try again later.",
+    "favoriteContacts_notfound_message": "No Favorite contacts found"
+}

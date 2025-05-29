@@ -20,7 +20,6 @@ export const getAdmins = async (keyword?: string, page: number = 1, limit: numbe
         orderBy: 'desc',
       },
     });
- console.log(response.data);
  
     return response?.data;
   } catch (error) {

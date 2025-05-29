@@ -73,6 +73,7 @@
   "mustMatchTheAbovePassword": "يجب أن تتطابق مع كلمة المرور المذكورة أعلاه",
   "theTermsAndConditionsMustBeAccepted": "يجب قبول الشروط والأحكام",
   "youMustEnterYourName": "يجب عليك إدخال اسمك",
+  "youMustEnterYourFirstName": "يجب عليك إدخال اسمك الأول",
   "youMustEnterYourLastName": "يجب عليك إدخال اسمك الأخير",
   "passwordConfirmationIsRequired": "مطلوب تأكيد كلمة المرور",
   "confirmationRequired": "التأكيد مطلوب",
@@ -153,6 +154,7 @@
   "male": "ذكر",
   "female": "أنثى",
   "pleaseLimitYourInputToAMaximumOf50Characters": "يرجى الحد من إدخالك إلى 50 حرفًا كحد أقصى",
+  "inputShouldNotStartWithSpace": "يجب ألا يبدأ الإدخال بمسافة",
   "resetLinkSendInToYourEmail": "أرسل رابط إعادة الضبط إلى البريد الإلكتروني الخاص بك",
   "emailIsNotFound": "لم يتم العثور على البريد الإلكتروني",
   "passwordResetSuccessfully": "$t(password) إعادة التعيين بنجاح"

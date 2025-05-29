@@ -12,6 +12,7 @@ import {
   setSessionRedirectUrl,
 } from "@fuse/core/FuseAuthorization/sessionRedirectUrl";
 import FuseLoading from "@fuse/core/FuseLoading";
+import { cacheIndex } from "app/shared-components/cache/cacheIndex";
 
 type FuseAuthorizationProps = {
   children: ReactNode;
@@ -46,6 +47,7 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
   }
 
   componentDidMount() {
+
     const { accessGranted } = this.state;
     const { enforcePasswordReset } = this.props;
 
@@ -56,18 +58,9 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
 
   shouldComponentUpdate(nextProps: FuseAuthorizationProps, nextState: State) {
     const { accessGranted } = this.state;
-
     return nextState.accessGranted !== accessGranted;
   }
 
-  // componentDidUpdate() {
-  //   const { accessGranted } = this.state;
-  //   const { enforcePasswordReset } = this.props;
-
-  //   if (!accessGranted || enforcePasswordReset === true) {
-  //     this.redirectRoute();
-  //   }
-  // }
   componentDidUpdate() {
     const { accessGranted } = this.state;
     const { enforcePasswordReset } = this.props;
@@ -78,9 +71,11 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
   }
 
   static getDerivedStateFromProps(props: FuseAuthorizationProps, state: State) {
+
     const { location, userRole } = props;
     const { pathname } = location;
     const matchedRoutes = matchRoutes(state.routes, pathname);
+
     const matched = matchedRoutes ? matchedRoutes[0] : false;
 
     const isGuest = isUserGuest(userRole);
@@ -92,17 +87,27 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
     const { route }: { route: FuseRouteItemType } = matched;
 
     const userHasPermission = FuseUtils.hasPermission(route.auth, userRole);
-
     const ignoredPaths = [
-      "/",
       "/callback",
       "/sign-in",
       "/sign-out",
       "/logout",
       "/404",
+      "/sign-in-success",
     ];
     if (matched && !userHasPermission && !ignoredPaths.includes(pathname)) {
-      setSessionRedirectUrl(pathname);
+      setSessionRedirectUrl(window.location.href);
+    }
+
+    if (matched && userHasPermission && !ignoredPaths.includes(pathname)) {
+      const isRoleDefined = localStorage.getItem(cacheIndex.userRoleId);
+      if (isRoleDefined === null && isGuest === false) {
+        let _redirectUrl = getSessionRedirectUrl();
+        if (_redirectUrl === null) {
+          setSessionRedirectUrl(pathname);
+        }
+        window.location.href = "/sign-in-success";
+      }
     }
 
     /**
@@ -118,42 +123,6 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
     };
   }
 
-  //   redirectRoute() {
-  //     const {
-  //       userRole,
-  //       loginRedirectUrl = "/",
-  //       enforcePasswordReset,
-  //     } = this.props;
-  //     const redirectUrl = getSessionRedirectUrl() || loginRedirectUrl;
-
-  //     /*
-  // 		User is guest
-  // 		Redirect to Login Page
-
-  // 		*/
-  //     // if (enforcePasswordReset === true) {
-
-  //     // 	history.push('/profile')
-  //     // 	return
-  //     // }
-
-  //     if (!userRole || userRole.length === 0) {
-
-  //       setTimeout(() => history.push("/sign-in"), 0);
-  //     } else if (enforcePasswordReset === true) {
-  //       setTimeout(() => history.push("/profile"), 0);
-
-  //       /*
-  // 		  User is member
-  // 		  User must be on unAuthorized page or just logged in
-  // 		  Redirect to dashboard or loginRedirectUrl
-
-  // 			*/
-  //     } else {
-  //       setTimeout(() => history.push(redirectUrl), 0);
-  //       resetSessionRedirectUrl();
-  //     }
-  //   }
 
   redirectRoute() {
     const {
@@ -163,26 +132,19 @@ class FuseAuthorization extends Component<FuseAuthorizationProps, State> {
     } = this.props;
 
     const redirectUrl = loginRedirectUrl;
-
-    // if (enforcePasswordReset) {
-    //   setTimeout(() => history.push('/reset-password'), 0);
-    // } else if (!userRole || userRole.length === 0) {
-    //   setTimeout(() => history.push('/sign-in'), 0);
-    // } else {
-    //   setTimeout(() => history.push(redirectUrl), 0);
-    //   resetSessionRedirectUrl();
-    // }
     if (!userRole || userRole.length === 0) {
-      console.log('log here')
       setTimeout(() => history.push("/sign-in-success"), 0);
     } else {
       /*
-  User is member
-  User must be on unAuthorized page or just logged in
-  Redirect to dashboard or loginRedirectUrl
-    */
+        User is member
+        User must be on unAuthorized page or just logged in
+        Redirect to dashboard or loginRedirectUrl
+      */
+      const sessionRedirectUrl = getSessionRedirectUrl();
       setTimeout(() => history.push(redirectUrl), 0);
-      resetSessionRedirectUrl();
+      if (sessionRedirectUrl !== null && !sessionRedirectUrl.includes('admin/expo/attendee') && !sessionRedirectUrl.includes('/events/')) {
+        resetSessionRedirectUrl();
+      }
     }
   }
 

@@ -13,7 +13,7 @@ import { Theme } from '@mui/system/createTheme';
 import { Layout1ConfigDefaultsType } from 'app/theme-layouts/layout1/Layout1Config';
 import NavbarStyle2Content from './NavbarStyle2Content';
 
-const navbarWidth = 280;
+const navbarWidth = 266;
 
 type StyledNavBarPropsProps = {
 	theme?: Theme;

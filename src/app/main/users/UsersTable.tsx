@@ -281,7 +281,6 @@ function UsersTable({ keyword, setKeyword }: Props) {
             setIsLoading(true);
             try {
                 const response = await getUserDetailsAPI({ pagination, keyword, sorting });
-                console.log(response,"in userLIstTable");
                 
 
                 if (response?.data?.items?.length === 0 && pagination.pageIndex !== 0) {
@@ -492,7 +491,7 @@ function UsersTable({ keyword, setKeyword }: Props) {
                                 )
                             }
                         >
-                            {t("delete")}
+                            {t("common_delete")}
                         </MenuItem>,
                         <MenuItem
                             key={1}
@@ -501,7 +500,7 @@ function UsersTable({ keyword, setKeyword }: Props) {
                                 closeMenu();
                             }}
                         >
-                            {t("edit")}
+                            {t("common_edit")}
                         </MenuItem>,
                         <MenuItem
                             key={2}

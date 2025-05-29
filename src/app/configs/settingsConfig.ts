@@ -9,7 +9,8 @@ import { getSettings } from 'app/shared-components/cache/cacheCallbacks';
 const data = await LocalCache.getItem(cacheIndex.settings, getSettings.bind(null));
 
 setTimeout(() => {
-	setI18nBackendUrl(data?.cloudFrontUrl || '');
+	setI18nBackendUrl(window.location.origin);
+	// setI18nBackendUrl(data?.cloudFrontUrl || '');
 }, 1000)
 
 /**
@@ -68,11 +69,11 @@ const settingsConfig: FuseSettingsConfigType = {
 	 * The theme object defines the color theme for the application.
 	 */
 	theme: {
-		main: data?.theme?.main || themesConfig.default,
-		navbar: data?.theme?.navbar || themesConfig.defaultDark,
-		toolbar: data?.theme?.toolbar || themesConfig.default,
-		footer: data?.theme?.footer || themesConfig.defaultDark
-	},
+        main: themesConfig.custom,
+        navbar: themesConfig.customDark,
+        toolbar: themesConfig.custom,
+        footer: themesConfig.customDark
+    },
 
 	/**
 	 * The defaultAuth property defines the default authorization roles for the application.
@@ -80,7 +81,7 @@ const settingsConfig: FuseSettingsConfigType = {
 	 * To make the whole app accessible without authorization by default set defaultAuth: null
 	 * The individual route configs which have auth option won't be overridden.
 	 */
-	defaultAuth: ['admin','user','endUser'],
+	defaultAuth: ['admin', 'user', 'enduser'],
 
 	/**
 	 * The loginRedirectUrl property defines the default redirect URL for the logged-in user.
@@ -91,4 +92,4 @@ const settingsConfig: FuseSettingsConfigType = {
 
 export default settingsConfig;
 
-export const pageLayout:string = data?.authLayout || 'classic';// classic , modern ,modernReversed,fullscreen
+export const pageLayout: string = data?.authLayout || 'classic';// classic , modern ,modernReversed,fullscreen

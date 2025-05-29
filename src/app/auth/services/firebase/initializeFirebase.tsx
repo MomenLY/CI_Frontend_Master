@@ -13,12 +13,12 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig);
  */
 let initialized = false;
 
-try {
-	firebase?.auth();
-	initialized = true;
-} catch (e) {
-	// eslint-disable-next-line no-console
-	console.error(e);
-}
+// try {
+// 	firebase?.auth();
+// 	initialized = true;
+// } catch (e) {
+// 	// eslint-disable-next-line no-console
+// 	console.error(e);
+// }
 
 export const firebaseInitialized = initialized;
